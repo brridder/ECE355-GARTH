@@ -42,6 +42,9 @@ The intended audience is the project managers and developers of the system.
 % Define the scope of the requirements of the system. Identify what problems are
 % deliberately not begin solved.
 
+% HARDWARE is not being solved. Assuming that the sensor hardware has already
+% been implemented and we are just integrating that into our controllers
+
 \section{Terminology and Definitions}
 % Define non-obivious acronyms, abbreviations, and terminology used in this
 % document.
@@ -599,8 +602,11 @@ Quality requirements & TODO \\ \hline
 
 \section{Object model}
 
+%TODO :: Motion events
+
 \floatstyle{plain}
 \restylefloat{figure}
+\begin{landscape}
 \begin{figure}[hp]
     \centering
         \caption{Controller Class Diagram}
@@ -610,6 +616,7 @@ Quality requirements & TODO \\ \hline
         \normalsize
     \label{fig:controller_class_diagram}
 \end{figure}
+\end{landscape}
 
 \begin{landscape}
 \begin{figure}[hp]
@@ -621,9 +628,45 @@ Quality requirements & TODO \\ \hline
         \normalsize
     \label{fig:event_class_diagram}
 \end{figure}
+\end{landscape}
+
+\begin{landscape}
+\begin{figure}[hp]
+    \centering
+        \caption{Sensor Class Diagram}
+        \scriptsize
+        \setlength{\unitlength}{2.0em}
+        \includegraphics{classes3.mps}
+        \normalsize
+    \label{fig:sensor_class_diagram}
+\end{figure}
+\end{landscape}
+
+\begin{figure}[hp]
+    \centering
+        \caption{Input Class Diagram}
+        \scriptsize
+        \setlength{\unitlength}{2.0em}
+        \includegraphics{classes4.mps}
+        \normalsize
+    \label{fig:input_class_diagram}
+\end{figure}
+
+\begin{landscape}
+\begin{figure}[hp]
+    \centering
+        \caption{Alarm Class Diagram}
+        \scriptsize
+        \setlength{\unitlength}{2.0em}
+        \includegraphics{classes5.mps}
+        \normalsize
+    \label{fig:alarm_class_diagram}
+\end{figure}
+\end{landscape}
+
 \floatstyle{boxed}
 \restylefloat{figure}
-\end{landscape}
+
 
 \section{Dynamic model}
 
@@ -645,11 +688,10 @@ a web interface. These user interfaces are described in more detail in
 Chapter~\ref{ch:user-interfaces}
 
 \subsection{Physical Hardware and Controller}
-%TODO :: rename section?
-The hardware, such as sensors and actuators, communicate wirelessly through
-bluetooth to the controller. Two way communication is required as the hardware
-needs to be able to register with the controller. The controller will also be
-able to poll each sensor on a regular schedule to ensure that they are
+The hardware, such as sensors and actuators, communicate wirelessly through the
+ZigBee protocol to the controller. Two way communication is required as the
+hardware needs to be able to register with the controller. The controller will
+also be able to poll each sensor on a regular schedule to ensure that they are
 operational and functioning properly. Examples of these sensors include
 temperature, motion, and hall effect sensors. Some sensors need to report their
 status when an event occurs so the controller interface needs to be able to
