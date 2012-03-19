@@ -16,14 +16,16 @@
     self = [super initWithDictionary:dict];
     if (self) {
         severity_ = [[dict objectForKey:@"severity"] intValue];
-        alarmDescription_ = [NSString stringWithString:[dict objectForKey:@"description"]];
-        speechMessage_ = [NSString stringWithString:[dict objectForKey:@"speech_message"]];
+        alarmDescription_ = [[NSString stringWithFormat:@"%@",[dict objectForKey:@"description"]] retain];
+        speechMessage_ = [[NSString stringWithString:[dict objectForKey:@"speech_message"]] retain];
     }    
     return self;
 }
 
-- (NSString*)description {
-    return [NSString stringWithFormat:@"AlarmEvent : %d, %@, %@", severity_, alarmDescription_, speechMessage_];
+- (void)dealloc {
+    [super dealloc];
+    [alarmDescription_ release];
+    [speechMessage_ release];
 }
 
 @end

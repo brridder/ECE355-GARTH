@@ -17,12 +17,11 @@
     UILabel *state_;
     UILabel *delta_;
     UILabel *eventType_;
-    
-    NSDateFormatter *formatter_;
-    
+
+    UIView *containerView_;    
 }
 
 - (void)setupFrames;
 - (void)setEvent:(Event*)event;
-- (NSString *)formatDate:(NSDate*)date;
+
 @end

@@ -16,7 +16,13 @@
     self = [super initWithDictionary:dict];
     if (self) {
         waterHeight_ = [[dict objectForKey:@"water_height"] intValue];
+        if (!waterHeight_) {
+            waterHeight_ = 0;
+        }
         delta_ = [[dict objectForKey:@"delta"] intValue];
+        if (!delta_) { 
+            delta_ = 0;
+        }
     }
     
     return self;

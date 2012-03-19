@@ -39,7 +39,7 @@
 		D72C08CF1517C33F003455C9 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08C11517C33F003455C9 /* SBJsonTokeniser.m */; };
 		D72C08D01517C33F003455C9 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08C31517C33F003455C9 /* SBJsonUTF8Stream.m */; };
 		D72C08D11517C33F003455C9 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08C51517C33F003455C9 /* SBJsonWriter.m */; };
-		D72C08D41517C449003455C9 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08D31517C449003455C9 /* SettingsViewController.m */; };
+		D72C08D41517C449003455C9 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08D31517C449003455C9 /* LaunchViewController.m */; };
 		D72C08D81517CA3B003455C9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C08D71517CA3A003455C9 /* QuartzCore.framework */; };
 		D72C08E11517D821003455C9 /* EventFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08E01517D821003455C9 /* EventFactory.m */; };
 		D72C08E41517D96F003455C9 /* DoorSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08E31517D96F003455C9 /* DoorSensorEvent.m */; };
@@ -126,8 +126,8 @@
 		D72C08C31517C33F003455C9 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		D72C08C41517C33F003455C9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		D72C08C51517C33F003455C9 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		D72C08D21517C449003455C9 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		D72C08D31517C449003455C9 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		D72C08D21517C449003455C9 /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = LaunchViewController.h; sourceTree = "<group>"; };
+		D72C08D31517C449003455C9 /* LaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
 		D72C08D71517CA3A003455C9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D72C08DF1517D820003455C9 /* EventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventFactory.h; sourceTree = "<group>"; };
 		D72C08E01517D821003455C9 /* EventFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventFactory.m; sourceTree = "<group>"; };
@@ -262,8 +262,8 @@
 				D72C07B01517BF9A003455C9 /* MainWindow_iPhone.xib */,
 				D72C07D91517BFD2003455C9 /* EventListViewController.h */,
 				D72C07DA1517BFD2003455C9 /* EventListViewController.m */,
-				D72C08D21517C449003455C9 /* SettingsViewController.h */,
-				D72C08D31517C449003455C9 /* SettingsViewController.m */,
+				D72C08D21517C449003455C9 /* LaunchViewController.h */,
+				D72C08D31517C449003455C9 /* LaunchViewController.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -518,7 +518,7 @@
 				D72C08CF1517C33F003455C9 /* SBJsonTokeniser.m in Sources */,
 				D72C08D01517C33F003455C9 /* SBJsonUTF8Stream.m in Sources */,
 				D72C08D11517C33F003455C9 /* SBJsonWriter.m in Sources */,
-				D72C08D41517C449003455C9 /* SettingsViewController.m in Sources */,
+				D72C08D41517C449003455C9 /* LaunchViewController.m in Sources */,
 				D72C08E11517D821003455C9 /* EventFactory.m in Sources */,
 				D72C08E41517D96F003455C9 /* DoorSensorEvent.m in Sources */,
 				D72C08E71517D97B003455C9 /* SensorEvent.m in Sources */,
