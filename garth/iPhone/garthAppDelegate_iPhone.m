@@ -8,6 +8,8 @@
 
 #import "garthAppDelegate_iPhone.h"
 
+#import "SettingsViewController.h"
+
 @implementation garthAppDelegate_iPhone
 
 @end

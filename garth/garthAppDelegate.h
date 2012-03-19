@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface garthAppDelegate : NSObject <UIApplicationDelegate>
+@interface garthAppDelegate : NSObject <UIApplicationDelegate> {
+    NSString *serverIP_;
+}
+
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) NSString *serverIP;
 
 @end

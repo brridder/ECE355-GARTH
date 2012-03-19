@@ -7,15 +7,22 @@
 //
 
 #import "garthAppDelegate.h"
-
+#import "SettingsViewController.h"
 @implementation garthAppDelegate
 
 @synthesize window = _window;
+@synthesize serverIP = serverIP_;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
+    
+    SettingsViewController *vc = [[SettingsViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    [self.window addSubview:nav.view];
+    
     return YES;
 }
 
@@ -57,6 +64,7 @@
      See also applicationDidEnterBackground:.
      */
 }
+
 
 - (void)dealloc
 {
