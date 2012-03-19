@@ -24,7 +24,7 @@
 - (id)initWithDictionary:(NSDictionary*)dict {    
     self = [super init];
     if (self) {
-        eventType_ = (enum EventType *)[dict objectForKey:@"event_type"];
+        eventType_ = [[dict objectForKey:@"event_type"] intValue];
         timestamp_ = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] doubleValue]];
     }
     return self;

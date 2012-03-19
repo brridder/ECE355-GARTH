@@ -98,7 +98,9 @@
     Event *event = nil;
     for (NSDictionary *e in eventDicts) {
         event = [EventFactory createEventFromDictionary:e];
-        [eventList_ addObject:event];
+        if (event) {
+            [eventList_ addObject:event];
+        }
     }
     
 }

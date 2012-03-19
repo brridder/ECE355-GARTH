@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef enum {
-    EventTypeDoorSensorEvent = 1,
-    EventTypeWindowSensorEvent = 2,
-    EventTypeFloodSensorEvent = 3,
-    EventTypeTempSensorEvent = 4,
-    EventTypeAlarmEvent = 5,
-    EventTypeKeyPadEvent = 6,
-    EventTypeNFCEvent = 7,
-    EventTypeMotionSensorEvent = 8
-} EventType;
+#import "Event.h"
+//typedef enum {
+//    EventTypeDoorSensorEvent = 1,
+//    EventTypeWindowSensorEvent = 2,
+//    EventTypeFloodSensorEvent = 3,
+//    EventTypeTempSensorEvent = 4,
+//    EventTypeAlarmEvent = 5,
+//    EventTypeKeyPadEvent = 6,
+//    EventTypeNFCEvent = 7,
+//    EventTypeMotionSensorEvent = 8
+//} EventType;
 
 @interface EventFactory : NSObject
 
