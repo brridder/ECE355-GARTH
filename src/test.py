@@ -24,8 +24,7 @@ import jsonrpc
 from communicationsinterface import CommunicationsInterface, ListenerThread
 from controller import Controller
 from sensorcontroller import SensorController
-from systemcontroller import SystemController
-from systemcontroller import SystemState
+from systemcontroller import SystemController, SystemState, STR_ALARM_DOOR_DESC
 
 class TestEventEncoder(unittest.TestCase):
     def setUp(self):
@@ -148,7 +147,7 @@ class TestEventEncoder(unittest.TestCase):
         event_type = EventType.KEYPAD_EVENT
         input_device_id = 2
         input_char = "a"
-        event = KeypadEvent(event_type, input_device_id, input_char, timestamp)
+        event = KeypadEvent(input_device_id, input_char, timestamp)
 
         expected = {'event_type':event_type,
                     'timestamp':time.mktime(timestamp.timetuple()),
@@ -369,8 +368,9 @@ class TestEvent(unittest.TestCase):
         input_device_id = 19
         input_char = "a"
 
-        event = KeypadEvent(event_type, input_device_id, input_char)
+        event = KeypadEvent(input_device_id, input_char)
 
+        self.assertEqual(event.get_event_type(), event_type)
         self.assertEqual(event.get_input(), input_char)
     
     def test_NFC_input_event(self):
@@ -868,25 +868,25 @@ class TestSystemController(unittest.TestCase):
                          SystemState.ARMED) 
         
         # Try to disarm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'd')
+        event = KeypadEvent(1, 'd')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(), 
                          SystemState.DISARMED)
 
         # Try to arm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'a')
+        event = KeypadEvent(1, 'a')
         ret_value = self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(),
                          SystemState.ARMED)
         self.assertTrue(ret_value)
         
         # Turn off alarms
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 's')
+        event = KeypadEvent(1, 's')
         ret_value = self.system_controller.handle_event(event)
         self.assertTrue(ret_value)
 
         # Bad input
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, "r3d")
+        event = KeypadEvent(1, "r3d")
         ret_value = self.system_controller.handle_event(event)
         self.assertFalse(ret_value)
 
@@ -898,27 +898,27 @@ class TestSystemController(unittest.TestCase):
                          SystemState.ARMED) 
         
         # Try to disarm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'D')
+        event = KeypadEvent(1, 'D')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(), 
                          SystemState.DISARMED)
 
         # Try to arm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(),
                          SystemState.ARMED)
     
     def test_door_event_handler_closed(self):
         # Arm the system
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
         
         event = DoorSensorEvent(1, 2, False)
         ret_value = self.system_controller.handle_event(event)
         self.assertEqual(ret_value, False) 
         
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'D')
+        event = KeypadEvent(1, 'D')
         self.system_controller.handle_event(event)
 
         event = DoorSensorEvent(1, 2, False)
@@ -926,7 +926,7 @@ class TestSystemController(unittest.TestCase):
         self.assertEqual(ret_value, False) 
 
     def test_door_event_handler_opened_armed(self):
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
         
         event = DoorSensorEvent(1, 2, True)
@@ -934,10 +934,13 @@ class TestSystemController(unittest.TestCase):
         m = mox.Mox()
         mock_raise_alarm = m.CreateMockAnything()
         self.system_controller.door_timer_delay = 0.1
-        self.system_controller.raise_alarm = new.instancemethod(mock_raise_alarm,
-                                                        self.system_controller)
+        self.system_controller.raise_alarm = new.instancemethod(
+            mock_raise_alarm,
+            self.system_controller)
         mock_raise_alarm(self.system_controller,
-                            AlarmEvent(AlarmSeverity.MAJOR_ALARM,"",""))
+                         AlarmEvent(AlarmSeverity.MAJOR_ALARM,
+                                    STR_ALARM_DOOR_DESC,
+                                    ""))
 
         m.ReplayAll()
         self.system_controller.handle_event(event)
@@ -948,7 +951,7 @@ class TestSystemController(unittest.TestCase):
         m.VerifyAll()
     
     def test_door_event_handler_opened_disarmed(self):
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
 
         event = DoorSensorEvent(1,2,True)
@@ -956,13 +959,14 @@ class TestSystemController(unittest.TestCase):
         self.system_controller.door_timer_delay = 0.2
         m = mox.Mox()
         mock_raise_alarm = m.CreateMockAnything()
-        self.system_controller.raise_alarm = new.instancemethod(mock_raise_alarm,
-                                                        self.system_controller)
+        self.system_controller.raise_alarm = new.instancemethod(
+            mock_raise_alarm,
+            self.system_controller)
         m.ReplayAll()
         self.system_controller.handle_event(event)
 
         # Disarm the system in the mean time.
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'd')
+        event = KeypadEvent(1, 'd')
         self.system_controller.handle_event(event)
 
         thread_count = threading.active_count()
@@ -973,7 +977,7 @@ class TestSystemController(unittest.TestCase):
 
     def test_window_event_handler(self):
         # Arm the system
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(),
                          SystemState.ARMED)
@@ -989,7 +993,7 @@ class TestSystemController(unittest.TestCase):
         self.assertFalse(ret_value)
 
         # Disarm the system
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'd')
+        event = KeypadEvent(1, 'd')
         self.system_controller.handle_event(event)
 
          # Test an window opening with system disarmed
@@ -1004,7 +1008,7 @@ class TestSystemController(unittest.TestCase):
 
     def test_flood_event_handler(self):
         # Arm the system
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(),
                          SystemState.ARMED)
@@ -1022,7 +1026,7 @@ class TestSystemController(unittest.TestCase):
             self.assertEqual(ret_value, test['ret_value'])
 
         # Disarm the system -- Nothing should change in the test cases...
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'D')
+        event = KeypadEvent(1, 'D')
         self.system_controller.handle_event(event)
         
         for test in test_vector:
@@ -1034,7 +1038,7 @@ class TestSystemController(unittest.TestCase):
         # TODO :: setup mox to check the alarm event severity...
 
         # Arm the system.
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'a')
+        event = KeypadEvent(1, 'a')
         self.system_controller.handle_event(event)
         
         test_vector = [
@@ -1056,7 +1060,7 @@ class TestSystemController(unittest.TestCase):
             self.assertEqual(ret_value, test['ret_value'])
         
         # Disarm the system, ensure that it is system state independent...
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'd')
+        event = KeypadEvent(1, 'd')
         self.system_controller.handle_event(event)
 
         for test in test_vector:
@@ -1066,7 +1070,7 @@ class TestSystemController(unittest.TestCase):
         
     def test_motion_event(self):
         # Arm the system
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, "a")
+        event = KeypadEvent(1, "a")
         self.system_controller.handle_event(event)
         
         test_vector = [
@@ -1105,7 +1109,7 @@ class TestSystemController(unittest.TestCase):
             self.assertEqual(ret_value, test['ret_value']) 
 
         # Disarm the system
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, "d")
+        event = KeypadEvent(1, "d")
         self.system_controller.handle_event(event)
         
         # Everything should return False

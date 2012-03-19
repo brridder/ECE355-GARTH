@@ -23,29 +23,33 @@ class SensorFrame(wx.Frame):
         # Doors
         button_door_open = wx.Button(panel, wx.ID_ANY, 'Open Door')
         button_door_closed = wx.Button(panel, wx.ID_ANY, 'Close Door')
+        self.door_id = wx.TextCtrl(panel, wx.ID_ANY, value='0')
+        door_id_label = wx.StaticText(panel, wx.ID_ANY, label='Door ID:')
         door_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Doors')
         door_sizer = wx.StaticBoxSizer(door_staticbox, wx.HORIZONTAL)
         door_sizer.Add(button_door_open, 0, wx.ALL, border=5)
         door_sizer.Add(button_door_closed, 0, wx.ALL, border=5)
+        door_sizer.Add(door_id_label, 0, wx.ALL, border=5)
+        door_sizer.Add(self.door_id, 0, wx.ALL, border=5)
 
         # Windows
         button_window_open = wx.Button(panel, wx.ID_ANY, 'Open Window')
         button_window_closed = wx.Button(panel, wx.ID_ANY, 'Close Window')
+        self.window_id = wx.TextCtrl(panel, wx.ID_ANY, value='0')
+        window_id_label = wx.StaticText(panel, wx.ID_ANY, label='Window ID:')
         window_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Windows')
         window_sizer = wx.StaticBoxSizer(window_staticbox, wx.HORIZONTAL)
         window_sizer.Add(button_window_open, 0, wx.ALL, border=5)
         window_sizer.Add(button_window_closed, 0, wx.ALL, border=5)
-
-        door_window_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        door_window_sizer.Add(door_sizer)
-        door_window_sizer.Add(window_sizer, 1, wx.LEFT, border=10)
+        window_sizer.Add(window_id_label, 0, wx.ALL, border=5)
+        window_sizer.Add(self.window_id, 0, wx.ALL, border=5)
 
         # Flood
         button_flood = wx.Button(panel, wx.ID_ANY, 'Trigger Flood Sensor')
         self.flood_level = wx.TextCtrl(panel, wx.ID_ANY, value='0')
-        flood_level_label = wx.StaticText(panel, wx.ID_ANY, label='Level: ')
+        flood_level_label = wx.StaticText(panel, wx.ID_ANY, label='Level:')
         self.flood_delta = wx.TextCtrl(panel, wx.ID_ANY, value='0')
-        flood_delta_label = wx.StaticText(panel, wx.ID_ANY, label='Delta: ')
+        flood_delta_label = wx.StaticText(panel, wx.ID_ANY, label='Delta:')
 
         flood_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Flood Sensors')
         flood_sizer = wx.StaticBoxSizer(flood_staticbox, wx.HORIZONTAL)    
@@ -58,9 +62,9 @@ class SensorFrame(wx.Frame):
         # Temperature
         button_temp = wx.Button(panel, wx.ID_ANY, 'Trigger Temp Sensor')
         self.temp = wx.TextCtrl(panel, wx.ID_ANY, value='20')
-        temp_level_label = wx.StaticText(panel, wx.ID_ANY, label='Temp: ')
+        temp_level_label = wx.StaticText(panel, wx.ID_ANY, label='Temp:')
         self.temp_delta = wx.TextCtrl(panel, wx.ID_ANY, value='0')
-        temp_delta_label = wx.StaticText(panel, wx.ID_ANY, label='Delta: ')
+        temp_delta_label = wx.StaticText(panel, wx.ID_ANY, label='Delta:')
 
         temp_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Temp Sensors')
         temp_sizer = wx.StaticBoxSizer(temp_staticbox, wx.HORIZONTAL)    
@@ -70,13 +74,29 @@ class SensorFrame(wx.Frame):
         temp_sizer.Add(temp_delta_label, 0, wx.ALL, border=5)        
         temp_sizer.Add(self.temp_delta, 0, wx.ALL, border=5)
 
+        # Keyboard Events
+        button_keyboard = wx.Button(panel, wx.ID_ANY, 'Keyboard Input')
+        self.keyboard = wx.TextCtrl(panel, wx.ID_ANY)
+        keyboard_level_label = wx.StaticText(panel, wx.ID_ANY, label='String:')
+
+        keyboard_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Keyboard Input')
+        keyboard_sizer = wx.StaticBoxSizer(keyboard_staticbox, wx.HORIZONTAL)    
+        keyboard_sizer.Add(button_keyboard, 0, wx.ALL, border=5)
+        keyboard_sizer.Add(keyboard_level_label, 0, wx.ALL, border=5)        
+        keyboard_sizer.Add(self.keyboard, 0, wx.ALL, border=5)        
+
+        # Motion Event
+
+
         # Panel
         panel_sizer = wx.BoxSizer(wx.VERTICAL)
         panel_sizer.Add(title)
         panel_sizer.Add(title_line)
-        panel_sizer.Add(door_window_sizer, 0, wx.EXPAND | wx.TOP, border=5)
+        panel_sizer.Add(door_sizer, 1, wx.EXPAND | wx.TOP, border=10)
+        panel_sizer.Add(window_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel_sizer.Add(flood_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel_sizer.Add(temp_sizer, 1, wx.EXPAND | wx.TOP, border=10)
+        panel_sizer.Add(keyboard_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel.SetSizer(panel_sizer)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
@@ -90,24 +110,41 @@ class SensorFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.OnWindowClosed, button_window_closed)
         self.Bind(wx.EVT_BUTTON, self.OnFlood, button_flood)
         self.Bind(wx.EVT_BUTTON, self.OnTemp, button_temp)
+        self.Bind(wx.EVT_BUTTON, self.OnKeyboard, button_keyboard)
 
         self.Show(True)
 
     def OnDoorOpen(self, wx_event):
-        e = event.DoorSensorEvent(0, 0, True)
-        g_event_manager.broadcast_event(e)
+        try:
+            door_id = int(self.door_id.GetValue())
+            e = event.DoorSensorEvent(0, door_id, True)
+            g_event_manager.broadcast_event(e)
+        except ValueError:
+            pass
 
     def OnDoorClosed(self, wx_event):
-        e = event.DoorSensorEvent(0, 0, False)
-        g_event_manager.broadcast_event(e)
+        try:
+            door_id = int(self.door_id.GetValue())
+            e = event.DoorSensorEvent(0, door_id, False)
+            g_event_manager.broadcast_event(e)
+        except ValueError:
+            pass
 
     def OnWindowOpen(self, wx_event):
-        e = event.WindowSensorEvent(1, 0, True)
-        g_event_manager.broadcast_event(e)
+        try:
+            window_id = int(self.window_id.GetValue())
+            e = event.WindowSensorEvent(1, window_id, True)
+            g_event_manager.broadcast_event(e)
+        except ValueError:
+            pass
 
     def OnWindowClosed(self, wx_event):
-        e = event.WindowSensorEvent(1, 0, False)
-        g_event_manager.broadcast_event(e)
+        try:
+            window_id = int(self.window_id.GetValue())
+            e = event.WindowSensorEvent(1, window_id, False)
+            g_event_manager.broadcast_event(e)
+        except ValueError:
+            pass
 
     def OnFlood(self, wx_event):
         try:
