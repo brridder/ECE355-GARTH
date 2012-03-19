@@ -98,8 +98,10 @@ class SystemController(Controller):
 
     def _door_timer(self):
         if self.system_state == SystemState.ARMED:
-            alarm = AlarmEvent(AlarmSeverity.MAJOR_ALARM, 
-                                STR_ALARM_DOOR_DESC, STR_ALARM_DOOR_SPEECH)
+            alarm = AlarmEvent(
+                AlarmSeverity.MAJOR_ALARM, 
+                STR_ALARM_DOOR_DESC,
+                STR_ALARM_DOOR_SPEECH)
             self.raise_alarm(alarm)
 
     # Tested
@@ -108,8 +110,10 @@ class SystemController(Controller):
             logging.debug("Window opened while system armed")
             description = STR_ALARM_WINDOW_DESC
             speech_message = STR_ALARM_WINDOW_SPEECH
-            alarm = AlarmEvent(EventType.ALARM_EVENT, AlarmSeverity.MAJOR_ALARM,
-                                description, speech_message) 
+            alarm = AlarmEvent(
+                AlarmSeverity.MAJOR_ALARM,
+                description,
+                speech_message) 
             self.raise_alarm(alarm)
             return True
         return False
