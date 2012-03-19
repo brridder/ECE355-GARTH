@@ -25,7 +25,7 @@
     self = [super init];
     if (self) {
         eventType_ = [[dict objectForKey:@"event_type"] intValue];
-        timestamp_ = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] doubleValue]];
+        timestamp_ = [[NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] doubleValue]] retain];
     }
     return self;
 }

@@ -11,8 +11,18 @@
 
 @interface EventTableViewCell : UITableViewCell {
     Event *event_;
+    
+    UILabel *timestamp_;
+    UILabel *deviceID_;
+    UILabel *state_;
+    UILabel *delta_;
+    UILabel *eventType_;
+    
+    NSDateFormatter *formatter_;
+    
 }
 
+- (void)setupFrames;
 - (void)setEvent:(Event*)event;
-
+- (NSString *)formatDate:(NSDate*)date;
 @end
