@@ -10,12 +10,12 @@ import urllib2
 STR_ALARM_DOOR_DESC = "Door was opened without disarm."
 STR_ALARM_DOOR_SPEECH = ""
 
-STR_ALARM_WINDOW_DESC = "Window was opened"
+STR_ALARM_WINDOW_DESC = "Window was opened."
 STR_ALARM_WINDOW_SPEECH = ""
 
-STR_ALARM_FLOOD_MAJOR_DESC = "Major flooding detected"
+STR_ALARM_FLOOD_MAJOR_DESC = "Major flooding detected."
 STR_ALARM_FLOOD_MAJOR_SPEECH = ""
-STR_ALARM_FLOOD_CRIT_DESC = "Critical flooding detected"
+STR_ALARM_FLOOD_CRIT_DESC = "Critical flooding detected."
 STR_ALARM_FLOOD_CRIT_SPEECH = ""
 
 STR_ALARM_TEMP_MINOR_DESC = ""
