@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D72C079B1517BF9A003455C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C079A1517BF9A003455C9 /* UIKit.framework */; };
+		D72C079D1517BF9A003455C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C079C1517BF9A003455C9 /* Foundation.framework */; };
+		D72C079F1517BF9A003455C9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C079E1517BF9A003455C9 /* CoreGraphics.framework */; };
+		D72C07A51517BF9A003455C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D72C07A31517BF9A003455C9 /* InfoPlist.strings */; };
+		D72C07A71517BF9A003455C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C07A61517BF9A003455C9 /* main.m */; };
+		D72C07AB1517BF9A003455C9 /* garthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C07AA1517BF9A003455C9 /* garthAppDelegate.m */; };
+		D72C07AF1517BF9A003455C9 /* garthAppDelegate_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C07AE1517BF9A003455C9 /* garthAppDelegate_iPhone.m */; };
+		D72C07B21517BF9A003455C9 /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72C07B01517BF9A003455C9 /* MainWindow_iPhone.xib */; };
+		D72C07B61517BF9A003455C9 /* garthAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C07B51517BF9A003455C9 /* garthAppDelegate_iPad.m */; };
+		D72C07B91517BF9A003455C9 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72C07B71517BF9A003455C9 /* MainWindow_iPad.xib */; };
+		D72C07C11517BF9A003455C9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C07C01517BF9A003455C9 /* SenTestingKit.framework */; };
+		D72C07C21517BF9A003455C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C079A1517BF9A003455C9 /* UIKit.framework */; };
+		D72C07C31517BF9A003455C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C079C1517BF9A003455C9 /* Foundation.framework */; };
+		D72C07C41517BF9A003455C9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72C079E1517BF9A003455C9 /* CoreGraphics.framework */; };
+		D72C07CC1517BF9A003455C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D72C07CA1517BF9A003455C9 /* InfoPlist.strings */; };
+		D72C07CE1517BF9A003455C9 /* garthTests.h in Resources */ = {isa = PBXBuildFile; fileRef = D72C07CD1517BF9A003455C9 /* garthTests.h */; };
+		D72C07D01517BF9A003455C9 /* garthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C07CF1517BF9A003455C9 /* garthTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D72C07C51517BF9A003455C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D72C078D1517BF9A003455C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D72C07951517BF9A003455C9;
+			remoteInfo = garth;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D72C07961517BF9A003455C9 /* garth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = garth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D72C079A1517BF9A003455C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D72C079C1517BF9A003455C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D72C079E1517BF9A003455C9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D72C07A21517BF9A003455C9 /* garth-Info.plist */ = {isa = PBXFileReference; path = "garth-Info.plist"; sourceTree = "<group>"; };
+		D72C07A41517BF9A003455C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D72C07A61517BF9A003455C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D72C07A81517BF9A003455C9 /* garth-Prefix.pch */ = {isa = PBXFileReference; path = "garth-Prefix.pch"; sourceTree = "<group>"; };
+		D72C07A91517BF9A003455C9 /* garthAppDelegate.h */ = {isa = PBXFileReference; path = garthAppDelegate.h; sourceTree = "<group>"; };
+		D72C07AA1517BF9A003455C9 /* garthAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = garthAppDelegate.m; sourceTree = "<group>"; };
+		D72C07AD1517BF9A003455C9 /* garthAppDelegate_iPhone.h */ = {isa = PBXFileReference; name = garthAppDelegate_iPhone.h; path = iPhone/garthAppDelegate_iPhone.h; sourceTree = "<group>"; };
+		D72C07AE1517BF9A003455C9 /* garthAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = garthAppDelegate_iPhone.m; path = iPhone/garthAppDelegate_iPhone.m; sourceTree = "<group>"; };
+		D72C07B11517BF9A003455C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPhone/en.lproj/MainWindow_iPhone.xib; sourceTree = "<group>"; };
+		D72C07B41517BF9A003455C9 /* garthAppDelegate_iPad.h */ = {isa = PBXFileReference; name = garthAppDelegate_iPad.h; path = iPad/garthAppDelegate_iPad.h; sourceTree = "<group>"; };
+		D72C07B51517BF9A003455C9 /* garthAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = garthAppDelegate_iPad.m; path = iPad/garthAppDelegate_iPad.m; sourceTree = "<group>"; };
+		D72C07B81517BF9A003455C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
+		D72C07BF1517BF9A003455C9 /* garthTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = garthTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D72C07C01517BF9A003455C9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D72C07C91517BF9A003455C9 /* garthTests-Info.plist */ = {isa = PBXFileReference; path = "garthTests-Info.plist"; sourceTree = "<group>"; };
+		D72C07CB1517BF9A003455C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D72C07CD1517BF9A003455C9 /* garthTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = garthTests.h; sourceTree = "<group>"; };
+		D72C07CF1517BF9A003455C9 /* garthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = garthTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D72C07931517BF9A003455C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D72C079B1517BF9A003455C9 /* UIKit.framework in Frameworks */,
+				D72C079D1517BF9A003455C9 /* Foundation.framework in Frameworks */,
+				D72C079F1517BF9A003455C9 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D72C07BB1517BF9A003455C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D72C07C11517BF9A003455C9 /* SenTestingKit.framework in Frameworks */,
+				D72C07C21517BF9A003455C9 /* UIKit.framework in Frameworks */,
+				D72C07C31517BF9A003455C9 /* Foundation.framework in Frameworks */,
+				D72C07C41517BF9A003455C9 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D72C078B1517BF9A003455C9 = {
+			isa = PBXGroup;
+			children = (
+				D72C07A01517BF9A003455C9 /* garth */,
+				D72C07C71517BF9A003455C9 /* garthTests */,
+				D72C07991517BF9A003455C9 /* Frameworks */,
+				D72C07971517BF9A003455C9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D72C07971517BF9A003455C9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07961517BF9A003455C9 /* garth.app */,
+				D72C07BF1517BF9A003455C9 /* garthTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D72C07991517BF9A003455C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D72C079A1517BF9A003455C9 /* UIKit.framework */,
+				D72C079C1517BF9A003455C9 /* Foundation.framework */,
+				D72C079E1517BF9A003455C9 /* CoreGraphics.framework */,
+				D72C07C01517BF9A003455C9 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D72C07A01517BF9A003455C9 /* garth */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07A91517BF9A003455C9 /* garthAppDelegate.h */,
+				D72C07AA1517BF9A003455C9 /* garthAppDelegate.m */,
+				D72C07AC1517BF9A003455C9 /* iPhone */,
+				D72C07B31517BF9A003455C9 /* iPad */,
+				D72C07A11517BF9A003455C9 /* Supporting Files */,
+			);
+			path = garth;
+			sourceTree = "<group>";
+		};
+		D72C07A11517BF9A003455C9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07A21517BF9A003455C9 /* garth-Info.plist */,
+				D72C07A31517BF9A003455C9 /* InfoPlist.strings */,
+				D72C07A61517BF9A003455C9 /* main.m */,
+				D72C07A81517BF9A003455C9 /* garth-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D72C07AC1517BF9A003455C9 /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07AD1517BF9A003455C9 /* garthAppDelegate_iPhone.h */,
+				D72C07AE1517BF9A003455C9 /* garthAppDelegate_iPhone.m */,
+				D72C07B01517BF9A003455C9 /* MainWindow_iPhone.xib */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		D72C07B31517BF9A003455C9 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07B41517BF9A003455C9 /* garthAppDelegate_iPad.h */,
+				D72C07B51517BF9A003455C9 /* garthAppDelegate_iPad.m */,
+				D72C07B71517BF9A003455C9 /* MainWindow_iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		D72C07C71517BF9A003455C9 /* garthTests */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07CD1517BF9A003455C9 /* garthTests.h */,
+				D72C07CF1517BF9A003455C9 /* garthTests.m */,
+				D72C07C81517BF9A003455C9 /* Supporting Files */,
+			);
+			path = garthTests;
+			sourceTree = "<group>";
+		};
+		D72C07C81517BF9A003455C9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D72C07C91517BF9A003455C9 /* garthTests-Info.plist */,
+				D72C07CA1517BF9A003455C9 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D72C07951517BF9A003455C9 /* garth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D72C07D31517BF9A003455C9 /* Build configuration list for PBXNativeTarget "garth" */;
+			buildPhases = (
+				D72C07921517BF9A003455C9 /* Sources */,
+				D72C07931517BF9A003455C9 /* Frameworks */,
+				D72C07941517BF9A003455C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = garth;
+			productName = garth;
+			productReference = D72C07961517BF9A003455C9 /* garth.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D72C07BE1517BF9A003455C9 /* garthTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D72C07D61517BF9A003455C9 /* Build configuration list for PBXNativeTarget "garthTests" */;
+			buildPhases = (
+				D72C07BA1517BF9A003455C9 /* Sources */,
+				D72C07BB1517BF9A003455C9 /* Frameworks */,
+				D72C07BC1517BF9A003455C9 /* Resources */,
+				D72C07BD1517BF9A003455C9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D72C07C61517BF9A003455C9 /* PBXTargetDependency */,
+			);
+			name = garthTests;
+			productName = garthTests;
+			productReference = D72C07BF1517BF9A003455C9 /* garthTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D72C078D1517BF9A003455C9 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = D72C07901517BF9A003455C9 /* Build configuration list for PBXProject "garth" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D72C078B1517BF9A003455C9;
+			productRefGroup = D72C07971517BF9A003455C9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D72C07951517BF9A003455C9 /* garth */,
+				D72C07BE1517BF9A003455C9 /* garthTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D72C07941517BF9A003455C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D72C07A51517BF9A003455C9 /* InfoPlist.strings in Resources */,
+				D72C07B21517BF9A003455C9 /* MainWindow_iPhone.xib in Resources */,
+				D72C07B91517BF9A003455C9 /* MainWindow_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D72C07BC1517BF9A003455C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D72C07CC1517BF9A003455C9 /* InfoPlist.strings in Resources */,
+				D72C07CE1517BF9A003455C9 /* garthTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D72C07BD1517BF9A003455C9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D72C07921517BF9A003455C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D72C07A71517BF9A003455C9 /* main.m in Sources */,
+				D72C07AB1517BF9A003455C9 /* garthAppDelegate.m in Sources */,
+				D72C07AF1517BF9A003455C9 /* garthAppDelegate_iPhone.m in Sources */,
+				D72C07B61517BF9A003455C9 /* garthAppDelegate_iPad.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D72C07BA1517BF9A003455C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D72C07D01517BF9A003455C9 /* garthTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D72C07C61517BF9A003455C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D72C07951517BF9A003455C9 /* garth */;
+			targetProxy = D72C07C51517BF9A003455C9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D72C07A31517BF9A003455C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D72C07A41517BF9A003455C9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D72C07B01517BF9A003455C9 /* MainWindow_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D72C07B11517BF9A003455C9 /* en */,
+			);
+			name = MainWindow_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		D72C07B71517BF9A003455C9 /* MainWindow_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D72C07B81517BF9A003455C9 /* en */,
+			);
+			name = MainWindow_iPad.xib;
+			sourceTree = "<group>";
+		};
+		D72C07CA1517BF9A003455C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D72C07CB1517BF9A003455C9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D72C07D11517BF9A003455C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D72C07D21517BF9A003455C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D72C07D41517BF9A003455C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "garth/garth-Prefix.pch";
+				INFOPLIST_FILE = "garth/garth-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D72C07D51517BF9A003455C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "garth/garth-Prefix.pch";
+				INFOPLIST_FILE = "garth/garth-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		D72C07D71517BF9A003455C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/garth.app/garth";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "garth/garth-Prefix.pch";
+				INFOPLIST_FILE = "garthTests/garthTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		D72C07D81517BF9A003455C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/garth.app/garth";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "garth/garth-Prefix.pch";
+				INFOPLIST_FILE = "garthTests/garthTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D72C07901517BF9A003455C9 /* Build configuration list for PBXProject "garth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D72C07D11517BF9A003455C9 /* Debug */,
+				D72C07D21517BF9A003455C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D72C07D31517BF9A003455C9 /* Build configuration list for PBXNativeTarget "garth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D72C07D41517BF9A003455C9 /* Debug */,
+				D72C07D51517BF9A003455C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D72C07D61517BF9A003455C9 /* Build configuration list for PBXNativeTarget "garthTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D72C07D71517BF9A003455C9 /* Debug */,
+				D72C07D81517BF9A003455C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D72C078D1517BF9A003455C9 /* Project object */;
+}
