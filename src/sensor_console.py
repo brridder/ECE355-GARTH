@@ -5,9 +5,10 @@ import logging
 import argparse
 
 import event
+from datetime import datetime, timedelta
 from eventmanager import EventManager
 
-MIN_WINDOW_SIZE = wx.Size(590, 500)
+MIN_WINDOW_SIZE = wx.Size(590, 520)
 
 class SensorFrame(wx.Frame):
     def __init__(self, parent, title):
@@ -86,7 +87,11 @@ class SensorFrame(wx.Frame):
         keyboard_sizer.Add(self.keyboard, 0, wx.ALL, border=5)        
 
         # Motion Event
+        button_motion = wx.Button(panel, wx.ID_ANY, 'Trigger Motion Sensor')
 
+        motion_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Motion Sensor')
+        motion_sizer = wx.StaticBoxSizer(motion_staticbox, wx.HORIZONTAL)    
+        motion_sizer.Add(button_motion, 0, wx.ALL, border=5)
 
         # Panel
         panel_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -97,6 +102,7 @@ class SensorFrame(wx.Frame):
         panel_sizer.Add(flood_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel_sizer.Add(temp_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel_sizer.Add(keyboard_sizer, 1, wx.EXPAND | wx.TOP, border=10)
+        panel_sizer.Add(motion_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel.SetSizer(panel_sizer)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
@@ -111,6 +117,7 @@ class SensorFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.OnFlood, button_flood)
         self.Bind(wx.EVT_BUTTON, self.OnTemp, button_temp)
         self.Bind(wx.EVT_BUTTON, self.OnKeyboard, button_keyboard)
+        self.Bind(wx.EVT_BUTTON, self.OnMotion, button_motion)
 
         self.Show(True)
 
@@ -163,6 +170,21 @@ class SensorFrame(wx.Frame):
             g_event_manager.broadcast_event(e)
         except ValueError:
             pass
+
+    def OnKeyboard(self, wx_event):
+        string = self.keyboard.GetValue()
+        if len(string) > 1:
+            string = string[0]
+
+        e = event.KeypadEvent(4, string)
+        g_event_manager.broadcast_event(e)
+
+    def OnMotion(self, wx_event):
+        e = event.MotionSensorEvent(5,
+                                    0,
+                                    datetime.utcnow() - timedelta(seconds=31))
+        g_event_manager.broadcast_event(e)
+        
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

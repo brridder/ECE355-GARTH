@@ -53,17 +53,6 @@ class TestEventEncoder(unittest.TestCase):
                     'sensor_id':sensor_id}
 
         self.assertEqual(expected, self.encoder.default(event))
-        
-    def test_sensor_event(self):
-        timestamp = datetime.utcnow()
-        event_type = EventType.DOOR_SENSOR_EVENT
-        sensor_id = 0
-        event = SensorEvent(event_type, sensor_id, timestamp)
-        expected = {'event_type':event_type,
-                    'timestamp':time.mktime(timestamp.timetuple()),
-                    'sensor_id':sensor_id}
-
-        self.assertEqual(expected, self.encoder.default(event))
     
     def test_flood_sensor_event(self):
         timestamp = datetime.utcnow()
@@ -139,7 +128,7 @@ class TestEventEncoder(unittest.TestCase):
                     'current_threshold':current_threshold,
                     'start_time':time.mktime(start_time.timetuple()),
                     'end_time' : time.mktime(end_time.timetuple()),
-                    'duration' : event.get_duration()}
+                    'duration' : 0}
         self.assertEqual(expected, self.encoder.default(event))
 
     def test_keypad_event(self):
@@ -1128,22 +1117,6 @@ class TestSystemController(unittest.TestCase):
         event = NFCEvent(1,"test")
         ret_value = self.system_controller.handle_event(event)
         self.assertFalse(ret_value)
-
-def compare_dicts(d1,d2):
-    key_diff = set(d1.keys()) - set(d2.keys())
-    if len(key_diff) != 0:
-        return False
-    value_diff = set(d1.values()) - set(d2.values())
-    if len(value_diff) != 0:
-        return False
-    return True
-
-    #for k in d1:
-        #if d2.get(k) == None:
-            #return False
-        #elif d2.get(k) != d1.get(k):
-            #return False
-    #return True
 
 if __name__ == '__main__':
     #logging.basicConfig(level=logging.DEBUG)

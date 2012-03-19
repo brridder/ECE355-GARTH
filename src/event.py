@@ -35,8 +35,10 @@ class EventEncoder(json.JSONEncoder):
                 elif isinstance(obj, MotionSensorEvent):
                     fields['current_threshold'] = obj.current_threshold
                     fields['start_time'] = time.mktime(obj.start_time.timetuple())
-                    fields['end_time'] = time.mktime(obj.end_time.timetuple())
-                    fields['duration'] = obj.get_duration()
+                    if obj.end_time:
+                        fields['end_time'] = time.mktime(obj.end_time.timetuple())
+                    fields['duration'] = 0
+
             # InputEvent
             elif isinstance(obj, InputEvent):
                 fields['input_device_id'] = obj.input_device_id
@@ -53,6 +55,7 @@ class EventEncoder(json.JSONEncoder):
 
             return fields
         else:
+            print obj.__repr__()
             raise TypeError('Provided object was not an Event')
 
 
