@@ -8,15 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import "EventFactory.h"
+typedef enum {
+    EventTypeDoorSensorEvent = 1,
+    EventTypeWindowSensorEvent = 2,
+    EventTypeFloodSensorEvent = 3,
+    EventTypeTempSensorEvent = 4,
+    EventTypeAlarmEvent = 5,
+    EventTypeKeyPadEvent = 6,
+    EventTypeNFCEvent = 7,
+    EventTypeMotionSensorEvent = 8
+} EventType;
 
 @interface Event : NSObject {
     NSDate *timestamp_;
-    enum EventType *eventType_;
+    EventType eventType_;
 }
 
 @property (nonatomic, readonly) NSDate *timestamp;
-@property (nonatomic, readonly) enum EventType *eventType;
-
+@property (nonatomic)  EventType eventType;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

@@ -1,24 +1,24 @@
 //
-//  DoorSensorEvent.m
+//  WindowSensorEvent.m
 //  garth
 //
 //  Created by Pew on 12-03-19.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "DoorSensorEvent.h"
+#import "WindowSensorEvent.h"
 
-@implementation DoorSensorEvent
+@implementation WindowSensorEvent
 
-
-@synthesize doorId = doorId_, isOpened = isOpened_;
+@synthesize windowId = windowId_, isOpened = isOpened_;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-    self = [super initWithDictionary:dict];
+    self = [super init];
     if (self) {
-        doorId_ = (int)[dict objectForKey:@"door_id"];
+        windowId_ = (int)[dict objectForKey:@"window_id"];
         isOpened_ = (int)[dict objectForKey:@"opened"] == 1;
     }
+    
     return self;
 }
 

@@ -53,6 +53,9 @@
 		D72C09011517DD3E003455C9 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08F61517DD3E003455C9 /* AFPropertyListRequestOperation.m */; };
 		D72C09021517DD3E003455C9 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08F81517DD3E003455C9 /* AFURLConnectionOperation.m */; };
 		D72C09031517DD3E003455C9 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D72C08FA1517DD3E003455C9 /* AFXMLRequestOperation.m */; };
+		D7D6C76D1517E1A300BD5B43 /* WindowSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C76C1517E1A300BD5B43 /* WindowSensorEvent.m */; };
+		D7D6C7711517E64800BD5B43 /* TempSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C7701517E64800BD5B43 /* TempSensorEvent.m */; };
+		D7D6C7741517E6B200BD5B43 /* FloodSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C7731517E6B200BD5B43 /* FloodSensorEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +150,12 @@
 		D72C08F81517DD3E003455C9 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLConnectionOperation.m; path = garth/AFURLConnectionOperation.m; sourceTree = SOURCE_ROOT; };
 		D72C08F91517DD3E003455C9 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFXMLRequestOperation.h; path = garth/AFXMLRequestOperation.h; sourceTree = SOURCE_ROOT; };
 		D72C08FA1517DD3E003455C9 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFXMLRequestOperation.m; path = garth/AFXMLRequestOperation.m; sourceTree = SOURCE_ROOT; };
+		D7D6C76B1517E1A300BD5B43 /* WindowSensorEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowSensorEvent.h; sourceTree = "<group>"; };
+		D7D6C76C1517E1A300BD5B43 /* WindowSensorEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowSensorEvent.m; sourceTree = "<group>"; };
+		D7D6C76F1517E64800BD5B43 /* TempSensorEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempSensorEvent.h; sourceTree = "<group>"; };
+		D7D6C7701517E64800BD5B43 /* TempSensorEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempSensorEvent.m; sourceTree = "<group>"; };
+		D7D6C7721517E6B200BD5B43 /* FloodSensorEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloodSensorEvent.h; sourceTree = "<group>"; };
+		D7D6C7731517E6B200BD5B43 /* FloodSensorEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloodSensorEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,8 +353,14 @@
 				D72C08E61517D97B003455C9 /* SensorEvent.m */,
 				D72C08E21517D96F003455C9 /* DoorSensorEvent.h */,
 				D72C08E31517D96F003455C9 /* DoorSensorEvent.m */,
+				D7D6C76B1517E1A300BD5B43 /* WindowSensorEvent.h */,
+				D7D6C76C1517E1A300BD5B43 /* WindowSensorEvent.m */,
 				D72C08DF1517D820003455C9 /* EventFactory.h */,
 				D72C08E01517D821003455C9 /* EventFactory.m */,
+				D7D6C76F1517E64800BD5B43 /* TempSensorEvent.h */,
+				D7D6C7701517E64800BD5B43 /* TempSensorEvent.m */,
+				D7D6C7721517E6B200BD5B43 /* FloodSensorEvent.h */,
+				D7D6C7731517E6B200BD5B43 /* FloodSensorEvent.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -496,6 +511,9 @@
 				D72C09011517DD3E003455C9 /* AFPropertyListRequestOperation.m in Sources */,
 				D72C09021517DD3E003455C9 /* AFURLConnectionOperation.m in Sources */,
 				D72C09031517DD3E003455C9 /* AFXMLRequestOperation.m in Sources */,
+				D7D6C76D1517E1A300BD5B43 /* WindowSensorEvent.m in Sources */,
+				D7D6C7711517E64800BD5B43 /* TempSensorEvent.m in Sources */,
+				D7D6C7741517E6B200BD5B43 /* FloodSensorEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,6 +691,7 @@
 				D72C07D51517BF9A003455C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D72C07D61517BF9A003455C9 /* Build configuration list for PBXNativeTarget "garthTests" */ = {
 			isa = XCConfigurationList;
@@ -681,6 +700,7 @@
 				D72C07D81517BF9A003455C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
