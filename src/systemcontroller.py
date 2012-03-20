@@ -7,15 +7,15 @@ import logging
 import jsonrpc
 import urllib2
 
-STR_ALARM_DOOR_DESC = ""
+STR_ALARM_DOOR_DESC = "Door was opened without disarm."
 STR_ALARM_DOOR_SPEECH = ""
 
-STR_ALARM_WINDOW_DESC = ""
+STR_ALARM_WINDOW_DESC = "Window was opened."
 STR_ALARM_WINDOW_SPEECH = ""
 
-STR_ALARM_FLOOD_MAJOR_DESC = ""
+STR_ALARM_FLOOD_MAJOR_DESC = "Major flooding detected."
 STR_ALARM_FLOOD_MAJOR_SPEECH = ""
-STR_ALARM_FLOOD_CRIT_DESC = ""
+STR_ALARM_FLOOD_CRIT_DESC = "Critical flooding detected."
 STR_ALARM_FLOOD_CRIT_SPEECH = ""
 
 STR_ALARM_TEMP_MINOR_DESC = ""
@@ -25,7 +25,7 @@ STR_ALARM_TEMP_MAJOR_SPEECH = ""
 STR_ALARM_TEMP_CRIT_DESC = ""
 STR_ALARM_TEMP_CRIT_SPEECH = ""
 
-STR_ALARM_MOTION_SPEECH = ""
+STR_ALARM_MOTION_SPEECH = "Motion detected"
 STR_ALARM_MOTION_DESC = ""
 
 
@@ -98,8 +98,10 @@ class SystemController(Controller):
 
     def _door_timer(self):
         if self.system_state == SystemState.ARMED:
-            alarm = AlarmEvent(AlarmSeverity.MAJOR_ALARM, 
-                                STR_ALARM_DOOR_DESC, STR_ALARM_DOOR_SPEECH)
+            alarm = AlarmEvent(
+                AlarmSeverity.MAJOR_ALARM, 
+                STR_ALARM_DOOR_DESC,
+                STR_ALARM_DOOR_SPEECH)
             self.raise_alarm(alarm)
 
     # Tested
@@ -108,8 +110,10 @@ class SystemController(Controller):
             logging.debug("Window opened while system armed")
             description = STR_ALARM_WINDOW_DESC
             speech_message = STR_ALARM_WINDOW_SPEECH
-            alarm = AlarmEvent(EventType.ALARM_EVENT, AlarmSeverity.MAJOR_ALARM,
-                                description, speech_message) 
+            alarm = AlarmEvent(
+                AlarmSeverity.MAJOR_ALARM,
+                description,
+                speech_message) 
             self.raise_alarm(alarm)
             return True
         return False
