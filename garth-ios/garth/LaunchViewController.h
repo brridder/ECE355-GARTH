@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController <UITextFieldDelegate> {
+@interface LaunchViewController : UIViewController <UITextFieldDelegate> {
     UITextField *serverIPTextField_;
     UIButton *connectButton_;
 }

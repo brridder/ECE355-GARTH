@@ -22,10 +22,12 @@ typedef enum {
 @interface Event : NSObject {
     NSDate *timestamp_;
     EventType eventType_;
+    NSString *dateString_;
 }
 
 @property (nonatomic, readonly) NSDate *timestamp;
-@property (nonatomic)  EventType eventType;
+@property (nonatomic) EventType eventType;
+@property (nonatomic, readonly) NSString *dateString;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

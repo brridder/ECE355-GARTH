@@ -14,11 +14,11 @@
     NSMutableArray *eventList_;
     BOOL isGettingEvents_;
     SBJsonParser *parser_;
-    
+
+    NSTimer *timer_;
 }
 
 - (void)getEvents;
 - (void)parseEventJSONString:(NSString*)jsonResultString;
-- (void)eventsRetreived:(NSArray*)events;
 
 @end

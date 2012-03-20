@@ -16,10 +16,11 @@
     UILabel *descriptionLabel_;
     UILabel *speechMessageLabel_;
     
+    UIView *containerView_;
+    
     NSDateFormatter *formatter_;
 }
 
 - (void)setAlarmEvent:(AlarmEvent*)event;
-- (NSString*)formatDate:(NSDate*)date;
 - (void)setupFrames;
 @end

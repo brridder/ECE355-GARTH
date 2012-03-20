@@ -13,12 +13,11 @@
 @synthesize windowId = windowId_, isOpened = isOpened_;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-    self = [super init];
+    self = [super initWithDictionary:dict];
     if (self) {
         windowId_ = (int)[dict objectForKey:@"window_id"];
         isOpened_ = (int)[dict objectForKey:@"opened"] == 1;
     }
-    
     return self;
 }
 
