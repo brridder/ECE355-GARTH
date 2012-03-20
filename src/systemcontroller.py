@@ -31,7 +31,7 @@ STR_ALARM_MOTION_DESC = "Motion detected"
 FLOOD_DELTA_HEIGHT_CRIT = 3
 
 ALARM_MOTION_DURATION = timedelta(0, 30)
-DOOR_EVENT_TIMER_DELAY = 1
+DOOR_EVENT_TIMER_DELAY = 30
 
 class SystemState:
     ARMED           = 1
@@ -90,7 +90,7 @@ class SystemController(Controller):
             return False
         elif (event.get_opened() and self.system_state == SystemState.ARMED):
             print "self.door_timer_delay %s" % self.door_timer_delay
-            t = Timer(self.door_timer_delay, self._door_timer)
+            t = Timer(30, self._door_timer)
             t.start()
             return True
         else:
