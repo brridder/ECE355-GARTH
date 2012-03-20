@@ -2,3 +2,6 @@
 *.log
 *.toc
 *.lof
+*.lot
+sdd/sdd.pdf
+*.dia~

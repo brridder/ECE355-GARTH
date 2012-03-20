@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GARTH Activity Viewer</string>
+    <string name="server_settings">Server Settings</string>
+    <string name="server_url">Server URL</string>
+    <string name="settings">Settings</string>
+    <string name="url_preference_summary">GARTH Server URL</string>
+    <string name="list_empty">No data available</string>
+    <string name="refresh">Refresh</string>
+    <string name="row_image">Row image</string>
+    
+</resources>
