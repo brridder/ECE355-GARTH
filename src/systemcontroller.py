@@ -89,6 +89,7 @@ class SystemController(Controller):
         if self.system_state == SystemState.DISARMED:
             return False
         elif (event.get_opened() and self.system_state == SystemState.ARMED):
+            print "self.door_timer_delay %s" % self.door_timer_delay
             t = Timer(self.door_timer_delay, self._door_timer)
             t.start()
             return True
@@ -148,14 +149,12 @@ class SystemController(Controller):
         
         temp = event.get_temperature()
         delta = event.get_temp_delta()
-        if (temp >= 26 and temp < 30) or \
-           (temp < 18 and temp >= 15) or \
-           (abs(delta) <= 3 and abs(delta) > 2):  
+        if (temp >= 26 and temp < 30) or  (temp < 18 and temp >= 15) or \
+          (abs(delta) <= 3 and abs(delta) > 2):  
             description = STR_ALARM_TEMP_MINOR_DESC
             message = STR_ALARM_TEMP_MINOR_SPEECH
             severity = AlarmSeverity.MINOR_ALARM
-        elif (temp >= 30 and temp < 35) or \
-           (temp < 15 and temp >= 12) or \
+        elif (temp >= 30 and temp < 35) or (temp < 15 and temp >= 12) or \
            (abs(delta) > 3  and abs(delta) <= 5):
             description = STR_ALARM_TEMP_MAJOR_DESC
             message = STR_ALARM_TEMP_MAJOR_SPEECH
