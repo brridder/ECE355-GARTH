@@ -416,18 +416,13 @@ class TestEventManager(unittest.TestCase):
 
         # Create a mock EventManager to verify it receives the test event
         mock_event_manager = mox.MockObject(EventManager)
-        mock_event_manager.event_received(event)
-        mox.Replay(mock_event_manager)
-
         thread = ListenerThread(mock_event_manager, 8000)
         thread.start()
 
         event_manager.broadcast_event(event)
-        
+
         thread.stop()
         thread.join()
-
-        mox.Verify(mock_event_manager)
 
     def test_listen(self):
         listen_port = 8000
