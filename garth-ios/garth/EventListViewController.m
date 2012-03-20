@@ -9,6 +9,8 @@
 #import "EventListViewController.h"
 #import "garthAppDelegate.h"
 #import "EventTableViewCell.h"
+#import "AlarmEvent.h"
+#import "AlarmEventTableViewCell.h"
 #import "Event.h"
 #import "AFJSONRequestOperation.h"
 #import "EventFactory.h"
@@ -49,16 +51,34 @@
     return [eventList_ count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 66.0f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifer = @"cell";
+    NSString *identifer = nil;
+    Event *event = [eventList_ objectAtIndex:indexPath.row];
+    if ([event eventType] == EventTypeAlarmEvent) {
+        identifer = @"alarm";
+    } else {
+        identifer = @"event";
+    }
     
     UITableViewCell *cell = [tableview_ dequeueReusableCellWithIdentifier:identifer];
     if (cell == nil) {
-        cell = [[[EventTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer] autorelease];
+        if ([event eventType] == EventTypeAlarmEvent) {
+            cell = [[[AlarmEventTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer] autorelease];
+        } else {
+            cell = [[[EventTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer] autorelease];
+        }
     }
     
-    Event *event = [eventList_ objectAtIndex:indexPath.row];
-    [(EventTableViewCell*)cell setEvent:event];
+    if ([event eventType] == EventTypeAlarmEvent) {
+        [(AlarmEventTableViewCell*)cell setAlarmEvent:(AlarmEvent*)event];
+    } else {
+        [(EventTableViewCell*)cell setEvent:event];
+    }
+
     return cell;
 }
 
@@ -102,6 +122,9 @@
             [eventList_ addObject:event];
         }
     }
+    NSLog(@"%@", eventList_);
+    [tableview_ reloadData];
+//    NSLog(@"%@", [eventList_]
     
 }
 

@@ -10,14 +10,19 @@
 
 #import "SensorEvent.h"
 #import "DoorSensorEvent.h"
-
+#import "TempSensorEvent.h"
+#import "FloodSensorEvent.h"
+#import "WindowSensorEvent.h"
+#import "MotionSensorEvent.h"
+#import "AlarmEvent.h"
+#import "KeypadEvent.h"
 
 @implementation EventFactory
 
 + (Event*)createEventFromDictionary:(NSDictionary*)dict {
     Event *e = nil;
     NSLog(@"%@", dict);
-    int type = [[dict objectForKey:@"event_type"] intValue];
+    EventType type = [[dict objectForKey:@"event_type"] intValue];
     
     NSLog(@"type: %d", type);
     switch (type) {
@@ -27,21 +32,27 @@
             break;
         }
         case EventTypeWindowSensorEvent: {
+            e = [[WindowSensorEvent alloc] initWithDictionary:dict];
             break;
         }
         case EventTypeTempSensorEvent: {
+            e = [[TempSensorEvent alloc] initWithDictionary:dict];
             break;
         }
         case EventTypeFloodSensorEvent: {
+            e = [[FloodSensorEvent alloc] initWithDictionary:dict];
             break;
         }
         case EventTypeMotionSensorEvent: {
+            e = [[MotionSensorEvent alloc] initWithDictionary:dict];
             break;
         }
         case EventTypeAlarmEvent: {
+            e = [[AlarmEvent alloc] initWithDictionary:dict];
             break;
         }
         case EventTypeKeyPadEvent: {
+            e = [[KeypadEvent alloc] initWithDictionary:dict];
             break;
         }
         default:

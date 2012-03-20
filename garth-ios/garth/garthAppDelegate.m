@@ -19,8 +19,7 @@
     [self.window makeKeyAndVisible];
     
     SettingsViewController *vc = [[SettingsViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc]; 
     [self.window addSubview:nav.view];
     
     return YES;
@@ -64,7 +63,6 @@
      See also applicationDidEnterBackground:.
      */
 }
-
 
 - (void)dealloc
 {

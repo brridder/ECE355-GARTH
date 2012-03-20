@@ -56,6 +56,10 @@
 		D7D6C76D1517E1A300BD5B43 /* WindowSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C76C1517E1A300BD5B43 /* WindowSensorEvent.m */; };
 		D7D6C7711517E64800BD5B43 /* TempSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C7701517E64800BD5B43 /* TempSensorEvent.m */; };
 		D7D6C7741517E6B200BD5B43 /* FloodSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C7731517E6B200BD5B43 /* FloodSensorEvent.m */; };
+		D7D6C7771518082900BD5B43 /* MotionSensorEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C7761518082900BD5B43 /* MotionSensorEvent.m */; };
+		D7D6C77A15180BCE00BD5B43 /* AlarmEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C77915180BCE00BD5B43 /* AlarmEvent.m */; };
+		D7D6C77E15180CF500BD5B43 /* KeypadEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C77D15180CF400BD5B43 /* KeypadEvent.m */; };
+		D7D6C7811518164100BD5B43 /* AlarmEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D6C7801518164100BD5B43 /* AlarmEventTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,6 +160,14 @@
 		D7D6C7701517E64800BD5B43 /* TempSensorEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempSensorEvent.m; sourceTree = "<group>"; };
 		D7D6C7721517E6B200BD5B43 /* FloodSensorEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloodSensorEvent.h; sourceTree = "<group>"; };
 		D7D6C7731517E6B200BD5B43 /* FloodSensorEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloodSensorEvent.m; sourceTree = "<group>"; };
+		D7D6C7751518082900BD5B43 /* MotionSensorEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionSensorEvent.h; sourceTree = "<group>"; };
+		D7D6C7761518082900BD5B43 /* MotionSensorEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MotionSensorEvent.m; sourceTree = "<group>"; };
+		D7D6C77815180BCE00BD5B43 /* AlarmEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmEvent.h; sourceTree = "<group>"; };
+		D7D6C77915180BCE00BD5B43 /* AlarmEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmEvent.m; sourceTree = "<group>"; };
+		D7D6C77C15180CF400BD5B43 /* KeypadEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeypadEvent.h; sourceTree = "<group>"; };
+		D7D6C77D15180CF400BD5B43 /* KeypadEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeypadEvent.m; sourceTree = "<group>"; };
+		D7D6C77F1518164100BD5B43 /* AlarmEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmEventTableViewCell.h; sourceTree = "<group>"; };
+		D7D6C7801518164100BD5B43 /* AlarmEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmEventTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,6 +373,12 @@
 				D7D6C7701517E64800BD5B43 /* TempSensorEvent.m */,
 				D7D6C7721517E6B200BD5B43 /* FloodSensorEvent.h */,
 				D7D6C7731517E6B200BD5B43 /* FloodSensorEvent.m */,
+				D7D6C7751518082900BD5B43 /* MotionSensorEvent.h */,
+				D7D6C7761518082900BD5B43 /* MotionSensorEvent.m */,
+				D7D6C77815180BCE00BD5B43 /* AlarmEvent.h */,
+				D7D6C77915180BCE00BD5B43 /* AlarmEvent.m */,
+				D7D6C77C15180CF400BD5B43 /* KeypadEvent.h */,
+				D7D6C77D15180CF400BD5B43 /* KeypadEvent.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -370,6 +388,8 @@
 			children = (
 				D72C08A61517C276003455C9 /* EventTableViewCell.h */,
 				D72C08A71517C276003455C9 /* EventTableViewCell.m */,
+				D7D6C77F1518164100BD5B43 /* AlarmEventTableViewCell.h */,
+				D7D6C7801518164100BD5B43 /* AlarmEventTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -514,6 +534,10 @@
 				D7D6C76D1517E1A300BD5B43 /* WindowSensorEvent.m in Sources */,
 				D7D6C7711517E64800BD5B43 /* TempSensorEvent.m in Sources */,
 				D7D6C7741517E6B200BD5B43 /* FloodSensorEvent.m in Sources */,
+				D7D6C7771518082900BD5B43 /* MotionSensorEvent.m in Sources */,
+				D7D6C77A15180BCE00BD5B43 /* AlarmEvent.m in Sources */,
+				D7D6C77E15180CF500BD5B43 /* KeypadEvent.m in Sources */,
+				D7D6C7811518164100BD5B43 /* AlarmEventTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
