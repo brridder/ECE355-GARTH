@@ -15,4 +15,4 @@ function get_events(args, opt, callback) {
 
 server.expose('log_event', log_event);
 server.expose('get_events', get_events);
-server.listen(3000);
+server.listen(3000, '0.0.0.0');

@@ -937,7 +937,7 @@ class TestSystemController(unittest.TestCase):
         self.system_controller.raise_alarm = new.instancemethod(mock_raise_alarm,
                                                         self.system_controller)
         mock_raise_alarm(self.system_controller,
-                            AlarmEvent(AlarmSeverity.MAJOR_ALARM,"",""))
+                            AlarmEvent(AlarmSeverity.MAJOR_ALARM,"Door opened!","Intrusion Detected"))
 
         m.ReplayAll()
         self.system_controller.handle_event(event)

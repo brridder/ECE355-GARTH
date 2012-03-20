@@ -7,26 +7,26 @@ import logging
 import jsonrpc
 import urllib2
 
-STR_ALARM_DOOR_DESC = ""
-STR_ALARM_DOOR_SPEECH = ""
+STR_ALARM_DOOR_DESC = "Door opened!"
+STR_ALARM_DOOR_SPEECH = "Intrusion Detected"
 
-STR_ALARM_WINDOW_DESC = ""
-STR_ALARM_WINDOW_SPEECH = ""
+STR_ALARM_WINDOW_DESC = "Window opened!"
+STR_ALARM_WINDOW_SPEECH = "Intrusion Detected"
 
-STR_ALARM_FLOOD_MAJOR_DESC = ""
-STR_ALARM_FLOOD_MAJOR_SPEECH = ""
-STR_ALARM_FLOOD_CRIT_DESC = ""
-STR_ALARM_FLOOD_CRIT_SPEECH = ""
+STR_ALARM_FLOOD_MAJOR_DESC = "Flooding occuring "
+STR_ALARM_FLOOD_MAJOR_SPEECH = "Flooding Detected"
+STR_ALARM_FLOOD_CRIT_DESC = "Critical flooding occuring"
+STR_ALARM_FLOOD_CRIT_SPEECH = "Major Flooding Detected"
 
-STR_ALARM_TEMP_MINOR_DESC = ""
-STR_ALARM_TEMP_MINOR_SPEECH = ""
-STR_ALARM_TEMP_MAJOR_DESC = ""
-STR_ALARM_TEMP_MAJOR_SPEECH = ""
-STR_ALARM_TEMP_CRIT_DESC = ""
-STR_ALARM_TEMP_CRIT_SPEECH = ""
+STR_ALARM_TEMP_MINOR_DESC = "Temperature changing slightly"
+STR_ALARM_TEMP_MINOR_SPEECH = "Temperature starting to change"
+STR_ALARM_TEMP_MAJOR_DESC = "Temperature changing quickly"
+STR_ALARM_TEMP_MAJOR_SPEECH = "Temperature changing quickly"
+STR_ALARM_TEMP_CRIT_DESC = "Abnormal temperature levels"
+STR_ALARM_TEMP_CRIT_SPEECH = "Please vacate the premisses"
 
-STR_ALARM_MOTION_SPEECH = ""
-STR_ALARM_MOTION_DESC = ""
+STR_ALARM_MOTION_SPEECH = "Motion detected"
+STR_ALARM_MOTION_DESC = "Motion detected"
 
 
 FLOOD_DELTA_HEIGHT_CRIT = 3
