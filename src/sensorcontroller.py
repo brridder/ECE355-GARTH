@@ -9,7 +9,7 @@ class SensorController(Controller):
     def __init__(self, event_manager):
         Controller.__init__(self, event_manager)
         self.sensor_list = []
-    
+
     def add_sensor(self, sensor):
         self.sensor_list.append(sensor)
     
