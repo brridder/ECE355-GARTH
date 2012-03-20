@@ -28,5 +28,4 @@ class KeypadInputDevice(InputDevice):
         self.input_char = char
 
     def generate_keypad_event(self):
-        return KeypadEvent(EventType.KEYPAD_EVENT, self.device_id,
-                            self.input_char)
+        return KeypadEvent(self.device_id, self.input_char)

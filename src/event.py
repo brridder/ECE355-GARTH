@@ -199,8 +199,8 @@ class InputEvent(Event):
 #
 
 class KeypadEvent(InputEvent):
-    def __init__(self, event_type, input_device_id, input_char, timestamp=None):
-        InputEvent.__init__(self, event_type, input_device_id, timestamp)
+    def __init__(self, input_device_id, input_char, timestamp=None):
+        InputEvent.__init__(self, EventType.KEYPAD_EVENT, input_device_id, timestamp)
         self.input_char = input_char
 
     def get_input(self):
@@ -238,6 +238,7 @@ class AlarmEvent(Event):
         return (other.description == self.description and \
                 other.speech_message == self.speech_message and \
                 other.severity == self.severity)
+
     def get_severity(self):
         return self.severity
 
