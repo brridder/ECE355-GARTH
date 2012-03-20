@@ -7,7 +7,7 @@
 //
 
 #import "garthAppDelegate.h"
-#import "SettingsViewController.h"
+#import "LaunchViewController.h"
 @implementation garthAppDelegate
 
 @synthesize window = _window;
@@ -18,7 +18,7 @@
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
     
-    SettingsViewController *vc = [[SettingsViewController alloc] init];
+    LaunchViewController *vc = [[LaunchViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc]; 
     [self.window addSubview:nav.view];
     

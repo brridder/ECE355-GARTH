@@ -16,7 +16,14 @@
     self = [super initWithDictionary:dict];
     if (self) {
         temperature_ = [[dict objectForKey:@"temperature"] intValue];
+        if (!temperature_) {
+            temperature_ = 0;
+        }
+
         delta_ = [[dict objectForKey:@"delta"] intValue];
+        if (!delta_) {
+            delta_ = 0;
+        }
     }
     return self;
 }

@@ -21,7 +21,7 @@
 
 - (void)loadView {
     [super loadView];
-    tableview_ = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+    tableview_ = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height -44) style:UITableViewStylePlain];
     tableview_.delegate = self;
     tableview_.dataSource = self;
     
@@ -32,8 +32,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    tableview_.frame = self.view.bounds;
     [self.view addSubview:tableview_];
     [self getEvents];
+    [self.navigationController setTitle:@"Events List"];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    tableview_.frame = self.view.bounds;
+    
 }
 
 - (void)viewDidUnload {
@@ -83,8 +91,15 @@
 }
 
 - (void)getEvents {
+    if (isGettingEvents_) {
+        return;
+    }
     NSString *ip = [((garthAppDelegate *)[[UIApplication sharedApplication] delegate]) serverIP];
+    if (ip == nil) {
+        return;
+    }
     NSString *urlString = [NSString stringWithFormat:@"http://%@:3000/", ip];
+    
     NSLog(@"%@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
 
@@ -109,6 +124,9 @@
     
     [operation start];
     isGettingEvents_ = YES;
+    if (timer_ == nil) {
+        timer_ = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(getEvents) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)parseEventJSONString:(NSString*)jsonResultString {
@@ -117,19 +135,16 @@
     [eventList_ removeAllObjects];
     Event *event = nil;
     for (NSDictionary *e in eventDicts) {
-        event = [EventFactory createEventFromDictionary:e];
+        event = [[EventFactory createEventFromDictionary:e] retain];
         if (event) {
-            [eventList_ addObject:event];
+            [eventList_ insertObject:event atIndex:0];
         }
     }
     NSLog(@"%@", eventList_);
     [tableview_ reloadData];
-//    NSLog(@"%@", [eventList_]
     
 }
 
-- (void)eventsRetreived:(NSArray*)events {
-    
-}
+
 
 @end

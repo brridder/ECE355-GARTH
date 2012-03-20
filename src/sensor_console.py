@@ -7,24 +7,6 @@ import argparse
 import event
 from eventmanager import EventManager
 
-
-class TempPage(wx.Panel):
-    def __init__(self, parent):
-        wx.Panel.__init__(self, parent)
-        
-        button_temp = wx.Button(self, wx.ID_ANY, 'Poll Temperature Sensor')
-        
-        self.Bind(wx.EVT_BUTTON, self.OnTemp, button_temp)
-
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(button_temp, 0, wx.EXPAND)
-        self.SetSizer(sizer)
-
-    def OnTemp(self, wx_event):
-        e = event.TempSensorEvent(2, 2, 0, False)
-        g_event_manager.broadcast_event(e)
-
-
 MIN_WINDOW_SIZE = wx.Size(590, 500)
 
 class SensorFrame(wx.Frame):
@@ -73,12 +55,28 @@ class SensorFrame(wx.Frame):
         flood_sizer.Add(flood_delta_label, 0, wx.ALL, border=5)        
         flood_sizer.Add(self.flood_delta, 0, wx.ALL, border=5)
 
+        # Temperature
+        button_temp = wx.Button(panel, wx.ID_ANY, 'Trigger Temp Sensor')
+        self.temp = wx.TextCtrl(panel, wx.ID_ANY, value='20')
+        temp_level_label = wx.StaticText(panel, wx.ID_ANY, label='Temp: ')
+        self.temp_delta = wx.TextCtrl(panel, wx.ID_ANY, value='0')
+        temp_delta_label = wx.StaticText(panel, wx.ID_ANY, label='Delta: ')
+
+        temp_staticbox = wx.StaticBox(panel, wx.ID_ANY, 'Temp Sensors')
+        temp_sizer = wx.StaticBoxSizer(temp_staticbox, wx.HORIZONTAL)    
+        temp_sizer.Add(button_temp, 0, wx.ALL, border=5)
+        temp_sizer.Add(temp_level_label, 0, wx.ALL, border=5)        
+        temp_sizer.Add(self.temp, 0, wx.ALL, border=5)
+        temp_sizer.Add(temp_delta_label, 0, wx.ALL, border=5)        
+        temp_sizer.Add(self.temp_delta, 0, wx.ALL, border=5)
+
         # Panel
         panel_sizer = wx.BoxSizer(wx.VERTICAL)
         panel_sizer.Add(title)
         panel_sizer.Add(title_line)
         panel_sizer.Add(door_window_sizer, 0, wx.EXPAND | wx.TOP, border=5)
         panel_sizer.Add(flood_sizer, 1, wx.EXPAND | wx.TOP, border=10)
+        panel_sizer.Add(temp_sizer, 1, wx.EXPAND | wx.TOP, border=10)
         panel.SetSizer(panel_sizer)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
@@ -91,6 +89,7 @@ class SensorFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.OnWindowOpen, button_window_open)
         self.Bind(wx.EVT_BUTTON, self.OnWindowClosed, button_window_closed)
         self.Bind(wx.EVT_BUTTON, self.OnFlood, button_flood)
+        self.Bind(wx.EVT_BUTTON, self.OnTemp, button_temp)
 
         self.Show(True)
 
@@ -114,7 +113,16 @@ class SensorFrame(wx.Frame):
         try:
             level = int(self.flood_level.GetValue())
             delta = int(self.flood_delta.GetValue())
-            e = event.FloodSensorEvent(0, level, delta)
+            e = event.FloodSensorEvent(2, level, delta)
+            g_event_manager.broadcast_event(e)
+        except ValueError:
+            pass
+
+    def OnTemp(self, wx_event):
+        try:
+            temp = int(self.temp.GetValue())
+            delta = int(self.temp_delta.GetValue())
+            e = event.TempSensorEvent(3, temp, delta)
             g_event_manager.broadcast_event(e)
         except ValueError:
             pass
