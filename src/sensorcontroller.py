@@ -7,6 +7,9 @@
 #   Polling is done on a thread that fires every 60 seconds or as appropriate
 #   depending on the data sensitivity.
 #
+#   Note that this controller is not fully implemented, as it is out of the 
+#   chosen implementation scope for this submission.
+#
 
 from controller import Controller
 

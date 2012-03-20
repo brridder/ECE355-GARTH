@@ -1,8 +1,8 @@
 #
-#   jsonRPC.py
+#   jsonrpc.py
 #
 #   Takes care of converting parameters into a JSON remote procedure call for
-#   making api calls to the server
+#   making API calls to the server
 #
 
 import json
