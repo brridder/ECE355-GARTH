@@ -102,8 +102,8 @@
             eventType_.text = @"Motion Sensor Event";                        
             break;
         case EventTypeKeyPadEvent:
-            deviceId_.text = [NSString stringWithFormat:@"Input ID: %@", [(KeypadEvent*)event inputDeviceID]];
-            state_.test = [NSString stringWithFormat:@"Input: %@", [(KeypadEvent*)event inputChar]];
+            deviceID_.text = [NSString stringWithFormat:@"Input ID: %d", [(KeypadEvent*)event inputDeviceID]];
+            state_.text = [NSString stringWithFormat:@"Input: %@", [(KeypadEvent*)event inputChar]];
             delta_.text = @"";
             eventType_.text = @"Keypad Input Event";
             break;

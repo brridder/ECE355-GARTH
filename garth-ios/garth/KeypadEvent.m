@@ -16,7 +16,7 @@
     self = [super initWithDictionary:dict];
     if (self) {
         inputDeviceID_ = [[dict objectForKey:@"input_device_id"] intValue];
-        inputChar_ = [NSString stringWithString:[dict objectForKey:@"input_char"]];
+        inputChar_ = [[NSString stringWithString:[dict objectForKey:@"input_char"]] retain];
     }
     
     return self;
