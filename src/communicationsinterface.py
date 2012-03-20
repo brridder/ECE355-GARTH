@@ -7,6 +7,15 @@ import threading
 
 class ListenerThread(threading.Thread):
     def __init__(self, event_manager, listen_port):
+        """
+        ListenerThread constructor
+
+        Keyword arguments:
+        event_manager -- EventManager to pass received Events to
+        listen_port -- port to listen on
+
+        """
+
         threading.Thread.__init__(self)
         
         self._listen_port = listen_port
@@ -15,9 +24,19 @@ class ListenerThread(threading.Thread):
         self._ready = threading.Event()
 
     def is_listening(self):
+        """
+        Returns True if the listening socket has been bound, False otherwise.
+
+        """
+
         return self._ready.isSet()
 
     def stop(self):
+        """
+        Signal this thread to stop.
+
+        """
+
         self._stop.set()
 
     def run(self):
@@ -55,14 +74,16 @@ class ListenerThread(threading.Thread):
 
 class CommunicationsInterface:
 
-    #
-    # Returns a ListenerThread which will handle listening for data,
-    # parsing received data into Event objects, and calling
-    # event_received() on the EventManager.
-    #
-    
     @classmethod
     def listen(cls, event_manager, listen_port):
+        """
+
+        Returns a ListenerThread which will handle listening for data,
+        parsing received data into Event objects, and calling
+        event_received() on the EventManager.
+
+        """
+
         return ListenerThread(event_manager, listen_port)
 
     #
@@ -71,6 +92,15 @@ class CommunicationsInterface:
         
     @classmethod
     def broadcast_data(cls, data, peers):
+        """
+        Broadcast string data to a list of peers.
+
+        Keyword arguments:
+        data -- string to broadcast
+        peers -- list of peer tuples of the form (hostname, port)
+        
+        """
+        
         logging.debug("Broadcasting data")
 
         for peer in peers:

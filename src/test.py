@@ -224,6 +224,16 @@ class TestJsonRpc(unittest.TestCase):
         m.VerifyAll()
         
 class TestController(unittest.TestCase):
+    def test_run(self):
+        event_manager = EventManager([])
+        controller = Controller(event_manager)
+
+        controller_thread = threading.Thread(target=controller.run)
+        controller_thread.start()
+
+        controller.stop()
+        controller_thread.join()
+    
     def test_handle_event(self):
         # This function should be a no-op, nothing should be called on
         # the EventManager
@@ -822,23 +832,42 @@ class TestSensorController(unittest.TestCase):
     def setUp(self):
         self.sensor_controller = SensorController(None)
         
+    def test_add_sensor(self):
+        self.sensor_controller.add_sensor(None)        
+
+    def test_remove_sensor(self):
+        self.sensor_controller.add_sensor(None)        
+        self.sensor_controller.remove_sensor(None)        
+
     def test_handle_event(self):
-        pass 
+        self.sensor_controller.handle_event(None)
     
     def test_poll_sensor(self):
-        pass
+        self.sensor_controller.poll_sensor(None)
     
     def test_handle_sensor_input(self):
-        pass 
+        self.sensor_controller.handle_sensor_input(None)  
 
     def test_check_sensor_status(self):
-        pass
+        self.sensor_controller.check_sensor_status(None)
+
 
 class TestSystemController(unittest.TestCase):
     def setUp(self):
-        event_manager = EventManager([])
-        self.system_controller = SystemController(event_manager)
+        self.event_manager = EventManager([])
+        self.system_controller = SystemController(self.event_manager)
     
+    def test_log_event_to_server(self):
+        # This should fail gracefully with a bad URL, no exceptions
+        # should be raised
+        
+        event = Event(0)
+        system_controller = SystemController(self.event_manager,
+                                             'http://localhost:10000/')
+        system_controller.log_event_to_server(event)
+        
+
+
     def test_handle_bad_events(self):
         event = Event(1000)
         ret_value = self.system_controller.handle_event(event)
