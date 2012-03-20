@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/server_settings">
+  		<EditTextPreference
+			android:key="url_preference"
+			android:summary="@string/url_preference_summary"
+            android:title="@string/server_url"></EditTextPreference>
+	</PreferenceCategory>
+	
+</PreferenceScreen>
+    
