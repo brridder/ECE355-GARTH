@@ -1,3 +1,14 @@
+#   
+#   Event.py
+#
+#   Contains all of the event models and their deriving classes.
+#
+#   Events take in different parameters as required.
+#
+#   
+
+
+
 import json
 import time
 from event_type import EventType
@@ -58,8 +69,15 @@ class EventEncoder(json.JSONEncoder):
             print obj.__repr__()
             raise TypeError('Provided object was not an Event')
 
+#
+# Base Event class
+#
+
 
 class Event:
+    """ Base event class. All other events derive from this
+        in: event_type, timestampe=None
+    """
     def __init__(self, event_type, timestamp=None):
         self.event_type = event_type
 
@@ -82,6 +100,10 @@ class Event:
 #
 
 class SensorEvent(Event):
+    """ 
+    Sensor event class. Base class for all derivative sensor events.
+    in: event_type, sensor_id, timestamp=None
+    """
     def __init__(self, event_type, sensor_id, timestamp=None):
         Event.__init__(self, event_type, timestamp)
         self.sensor_id = sensor_id
@@ -99,6 +121,10 @@ class SensorEvent(Event):
 # 
 
 class DoorSensorEvent(SensorEvent):
+    """ 
+    Door sensor event: represents a door opening or closing
+    in: sensor_id, door_id, opened, timestamp=None
+    """
     def __init__(self, sensor_id, door_id, opened, timestamp=None):
         SensorEvent.__init__(self, EventType.DOOR_SENSOR_EVENT, sensor_id, timestamp)
         self.door_id = door_id
@@ -111,6 +137,10 @@ class DoorSensorEvent(SensorEvent):
         return self.opened
 
 class WindowSensorEvent(SensorEvent):
+    """
+    Window sensor event: represents a window opening or closing
+        in: sensor_id, window_id, opened, timestamp=None
+    """
     def __init__(self, sensor_id, window_id, opened, timestamp=None):
         SensorEvent.__init__(self,
                              EventType.WINDOW_SENSOR_EVENT,
@@ -132,6 +162,11 @@ class WindowSensorEvent(SensorEvent):
         return self.opened
 
 class TempSensorEvent(SensorEvent):
+    """
+    Temperature sensor event: represents the data from a temperature sensor.
+    Includes the current temperature and the delta from the last one.
+        in: sensor_id, temperature, delta, timestamp=None
+    """
     def __init__(self, sensor_id, temperature, delta, timestamp=None):
         SensorEvent.__init__(self, EventType.TEMP_SENSOR_EVENT, sensor_id, timestamp)
         self.temperature = temperature
@@ -144,6 +179,12 @@ class TempSensorEvent(SensorEvent):
         return self.delta
 
 class FloodSensorEvent(SensorEvent):
+    """
+    Flood sensor event: represents water flood levels from a flood sensor.
+    Includes the current water_height and the delta from the last one
+        In: sensor_id, water_height, delta, timestamp=None
+    """
+    
     def __init__(self, sensor_id, water_height, delta, timestamp=None):
         SensorEvent.__init__(self,
                              EventType.FLOOD_SENSOR_EVENT,
@@ -159,6 +200,10 @@ class FloodSensorEvent(SensorEvent):
         return self.delta
 
 class MotionSensorEvent(SensorEvent):
+    """
+    Motion sensor event: represents a movement detected by a motion sensor
+        In: sensor_id, current_threshold, start_time, end_time, timestamp
+    """
     def __init__(self,
                  sensor_id,
                  current_threshold,
@@ -189,7 +234,11 @@ class MotionSensorEvent(SensorEvent):
 # Input Event Base Class
 #
 
-class InputEvent(Event):
+class InputEvent(Event): 
+    """ 
+    InputEvent: base class for all input event types
+        In: event_type, input_device_id, timestamp
+    """
     def __init__(self, event_type, input_device_id, timestamp=None):
         Event.__init__(self, event_type, timestamp)
         self.input_device_id = input_device_id
@@ -202,6 +251,11 @@ class InputEvent(Event):
 #
 
 class KeypadEvent(InputEvent):
+    """
+    Keypad event: represents the data from a keypad interface from the end
+    user. Stores the input character from the keypad.
+        In: input_device_id, input_char, timestamp
+    """
     def __init__(self, input_device_id, input_char, timestamp=None):
         InputEvent.__init__(self, EventType.KEYPAD_EVENT, input_device_id, timestamp)
         self.input_char = input_char
@@ -209,7 +263,11 @@ class KeypadEvent(InputEvent):
     def get_input(self):
         return self.input_char
 
-class NFCEvent(InputEvent):
+class NFCEvent(InputEvent): 
+    """
+    NFCEvent: represents the data string read by an NFC reader. 
+        In: input_device_id, data, timestamp
+    """
     def __init__(self, input_device_id, data, timestamp=None):
         InputEvent.__init__(self, EventType.NFC_EVENT, input_device_id, timestamp)
         self.data = data
@@ -226,7 +284,11 @@ class AlarmSeverity:
     MAJOR_ALARM     = 2
     MINOR_ALARM     = 3
 
-class AlarmEvent(Event):
+class AlarmEvent(Event):    
+    """
+    AlarmEvent: represents an alarm that will be passed to the alarm devices
+        in: severity, description, speech_message, timestamp=None
+    """
     def __init__(self,
                  severity,
                  description,

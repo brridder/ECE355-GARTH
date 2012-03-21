@@ -1,3 +1,14 @@
+#
+#   SystemController.py
+#
+#   Main controller of the system. Handles state, sensor events, and pushing
+#   alarm events. Sends events to the logging server.
+#
+#   Constructor: EventManager event_manager, string server_URL
+#
+#   Public methods: handle_event(Event event), raise_alarm(AlarmEvent event)
+#   
+
 from controller import Controller
 from event_type import EventType
 from event import *
@@ -6,6 +17,10 @@ from threading import Timer
 import logging
 import jsonrpc
 import urllib2
+
+#
+# Constant strings for alarm messages 
+#
 
 STR_ALARM_DOOR_DESC = "Door opened!"
 STR_ALARM_DOOR_SPEECH = "Intrusion Detected"
@@ -27,6 +42,10 @@ STR_ALARM_TEMP_CRIT_SPEECH = "Please vacate the premisses"
 
 STR_ALARM_MOTION_SPEECH = "Motion detected"
 STR_ALARM_MOTION_DESC = "Motion detected"
+
+#
+# Parameters for the limits of alarm notification.
+#
 
 FLOOD_DELTA_HEIGHT_CRIT = 3
 
