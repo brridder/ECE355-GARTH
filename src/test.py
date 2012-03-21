@@ -1,5 +1,14 @@
 #!/usr/bin/env python2
 
+# 
+#   test.py
+#
+#   Contains the test cases for the system using Test Driven Development.
+#
+#   A test is written before the function to define the requirements of the
+#   function.
+#
+
 import new
 import mox
 import json

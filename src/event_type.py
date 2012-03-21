@@ -1,3 +1,10 @@
+#
+#   EventType.py
+#
+#   Enumeration for event types
+#
+
+
 class EventType:
     DOOR_SENSOR_EVENT   = 1
     WINDOW_SENSOR_EVENT = 2

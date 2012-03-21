@@ -1,3 +1,12 @@
+#
+#   EventManager.py
+#  
+#   Handles queuing and processing of events. Controllers subscribe to certain
+#   event types and then this manager sends the events to those controller
+#   
+#   Run on a seperate thread from the controllers.
+#
+
 import pickle
 import threading
 import Queue

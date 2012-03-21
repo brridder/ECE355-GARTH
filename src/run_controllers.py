@@ -1,5 +1,13 @@
 #!/usr/bin/env python2
 
+#
+#   run_controllers.py
+#
+#   Takes in command line arguements and spools up controller on seperate
+#   threads with the appropriate commands.
+#
+
+
 import sys
 import signal
 import logging
