@@ -17,6 +17,7 @@ from threading import Timer
 import logging
 import jsonrpc
 import urllib2
+import json
 
 #
 # Constant strings for alarm messages 
@@ -150,7 +151,6 @@ class SystemController(Controller):
             return True
         return False
     
-    # Tested
     def _handle_flood_event(self, event):
         """ Handle flood events. Alarm severity is dependent on the water
         height and delta values """
@@ -175,7 +175,6 @@ class SystemController(Controller):
         self.raise_alarm(alarm)
         return True
     
-    # Tested
     def _handle_temp_event(self, event):
         """ Handle temperature events. Alarm severity varies depending on the
         temperature and delta values."""
@@ -209,7 +208,6 @@ class SystemController(Controller):
         self.raise_alarm(alarm)
         return True
     
-    # Tested
     def _handle_motion_event(self, event):
         """ Handle motion events. Only concerned for when system is armed.
         Assumes that there will be an end time for event to be handled
@@ -253,6 +251,12 @@ class SystemController(Controller):
                 jsonrpc.rpc('log_event', [event], self._server_url)
             except urllib2.URLError, e:
                 logging.error("RPC Error: %s" % e)            
+    
+    def log_event_to_file(self, event):
+        """Save the event in a json to a file"""
+        f = open("events.log", 'a')
+        f.write(json.dumps(event, cls=EventEncoder))
+        f.close()
 
     # 
     # Outside of implementation scope
