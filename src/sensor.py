@@ -1,3 +1,13 @@
+#
+#   Sensor.py
+#
+#   Code representations of physical sensors. Each sensor can generate an event
+#   on command through generate_sensor_event().
+#
+#   Each sensor has a status associated with it.
+#
+
+
 from event import *
 from datetime import datetime
 from event_type import EventType
@@ -21,7 +31,8 @@ class Sensor():
         return self.status
 
     def generate_sensor_event(self):
-        raise "Generate sensor event called on base sensor class"
+        raise NotImplementedError(
+            "Generate sensor event called on base sensor class")
 
 class DoorSensor(Sensor):
     def __init__(self, sensor_id, status, door_id, opened=False):
@@ -36,8 +47,7 @@ class DoorSensor(Sensor):
         self.opened = opened
     
     def generate_sensor_event(self):
-        return DoorSensorEvent(EventType.DOOR_SENSOR_EVENT, self.sensor_id,
-        self.door_id, self.opened) 
+        return DoorSensorEvent(self.sensor_id, self.door_id, self.opened) 
 
 class WindowSensor(Sensor):
     def __init__(self, sensor_id, status, window_id, opened=False):
@@ -52,8 +62,7 @@ class WindowSensor(Sensor):
         self.opened = opened
 
     def generate_sensor_event(self):
-        return WindowSensorEvent(EventType.WINDOW_SENSOR_EVENT, self.sensor_id,
-                                self.window_id, self.opened)
+        return WindowSensorEvent(self.sensor_id, self.window_id, self.opened)
 
 class FloodSensor(Sensor):
     def __init__(self, sensor_id, status, current_water_height=0):
@@ -72,8 +81,9 @@ class FloodSensor(Sensor):
         self.current_water_height = water_height
 
     def generate_sensor_event(self):
-        return FloodSensorEvent(EventType.FLOOD_SENSOR_EVENT, self.sensor_id,
-                                self.current_water_height, self.get_delta())
+        return FloodSensorEvent(self.sensor_id,
+                                self.current_water_height,
+                                self.get_delta())
 
 class TemperatureSensor(Sensor):
     def __init__(self, sensor_id, status, current_temperature=0):
@@ -92,8 +102,7 @@ class TemperatureSensor(Sensor):
         self.current_temperature = temperature
 
     def generate_sensor_event(self):
-        return TempSensorEvent(EventType.TEMP_SENSOR_EVENT, self.sensor_id, 
-                                self.get_temperature(), self.get_delta())
+        return TempSensorEvent(self.sensor_id, self.get_temperature(), self.get_delta())
 
 class MotionSensor(Sensor):
     def __init__(self, sensor_id, status, motion_threshold):
@@ -115,6 +124,7 @@ class MotionSensor(Sensor):
         self.motion_started = datetime.utcnow()
         
     def generate_sensor_event(self):
-        return MotionSensorEvent(EventType.MOTION_SENSOR_EVENT, self.sensor_id,
-                        self.motion_threshold, self.motion_started)
+        return MotionSensorEvent(self.sensor_id,
+                                 self.motion_threshold,
+                                 self.motion_started)
         pass

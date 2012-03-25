@@ -1,12 +1,25 @@
 #!/usr/bin/env python2
 
+# 
+#   test.py
+#
+#   Contains the test cases for the system using Test Driven Development.
+#
+#   A test is written before the function to define the requirements of the
+#   function.
+#
+
 import new
 import mox
+import json
 import time
-import socket
 import pickle
+import select
+import socket
 import logging
+import urllib2
 import unittest
+import threading
 from datetime import datetime
 from datetime import timedelta
 
@@ -16,11 +29,282 @@ from event_type import EventType
 from inputdevice import *
 from eventmanager import EventManager
 
-from communicationsinterface import CommunicationsInterface
+import jsonrpc
+from communicationsinterface import CommunicationsInterface, ListenerThread
 from controller import Controller
 from sensorcontroller import SensorController
-from systemcontroller import SystemController
-from systemcontroller import SystemState
+from systemcontroller import SystemController, SystemState, STR_ALARM_DOOR_DESC
+
+class TestEventEncoder(unittest.TestCase):
+    def setUp(self):
+        self.encoder = EventEncoder()
+
+    def test_fallback(self):
+        test_object = {'foo':1, 'bar':'a'}
+        self.assertRaises(TypeError, self.encoder.default, test_object)
+
+    def test_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.DOOR_SENSOR_EVENT
+        event = Event(event_type, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple())}
+
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_sensor_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.DOOR_SENSOR_EVENT
+        sensor_id = 0
+        event = SensorEvent(event_type, sensor_id, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'sensor_id':sensor_id}
+
+        self.assertEqual(expected, self.encoder.default(event))
+    
+    def test_flood_sensor_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.FLOOD_SENSOR_EVENT
+        sensor_id = 0
+        water_height = 1
+        delta = 0.5
+        event = FloodSensorEvent(sensor_id, water_height, delta, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'sensor_id':sensor_id,
+                    'water_height':water_height,
+                    'delta':delta}
+
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_door_sensor_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.DOOR_SENSOR_EVENT
+        sensor_id = 0
+        door_id = 1
+        opened = True
+        event = DoorSensorEvent(sensor_id, door_id, opened, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'sensor_id':sensor_id,
+                    'door_id':door_id,
+                    'opened':opened}
+
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_window_sensor_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.WINDOW_SENSOR_EVENT
+        sensor_id = 0
+        window_id = 1
+        opened = True
+        event = WindowSensorEvent(sensor_id, window_id, opened, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'sensor_id':sensor_id,
+                    'window_id':window_id,
+                    'opened':opened}
+
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_temp_sensor_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.TEMP_SENSOR_EVENT
+        sensor_id = 0
+        temperature = 20
+        delta = 2
+        event = TempSensorEvent(sensor_id, temperature, delta, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'sensor_id':sensor_id,
+                    'temperature':temperature,
+                    'delta':delta}
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_motion_sensor_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.MOTION_SENSOR_EVENT
+        sensor_id = 0
+        start_time = datetime.utcnow()
+        end_time = datetime.utcnow() - timedelta(0,5)
+        current_threshold = 2
+        event = MotionSensorEvent(sensor_id, current_threshold, start_time,
+                                    end_time, timestamp)
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'sensor_id':sensor_id,
+                    'current_threshold':current_threshold,
+                    'start_time':time.mktime(start_time.timetuple()),
+                    'end_time' : time.mktime(end_time.timetuple()),
+                    'duration' : 0}
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_keypad_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.KEYPAD_EVENT
+        input_device_id = 2
+        input_char = "a"
+        event = KeypadEvent(input_device_id, input_char, timestamp)
+
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'input_device_id' :input_device_id,
+                    'input_char': input_char}
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_nfc_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.NFC_EVENT
+        input_device_id = 2
+        data = "asdfasdf"
+        event = NFCEvent(input_device_id, data, timestamp)
+
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'input_device_id': input_device_id,
+                    'data': data}
+        self.assertEqual(expected, self.encoder.default(event))
+
+    def test_alarm_event(self):
+        timestamp = datetime.utcnow()
+        event_type = EventType.ALARM_EVENT
+        severity = AlarmSeverity.MINOR_ALARM
+        description = "Alarm event 1"
+        speech_message = "Alarm Speech Message 1"
+        event = AlarmEvent(severity, description, speech_message, timestamp)
+
+        expected = {'event_type':event_type,
+                    'timestamp':time.mktime(timestamp.timetuple()),
+                    'severity' : severity,
+                    'description' : description,
+                    'speech_message' : speech_message}
+        self.assertEqual(expected, self.encoder.default(event))
+
+
+
+
+class TestJsonRpc(unittest.TestCase):
+    def test_get_rpc_json(self):
+        method = 'foo'
+        params = {'a':1, 'b':'foo'}
+        id = 'test_id'
+        expected_rpc_json = json.dumps({
+                'jsonrpc':'2.0',
+                'method':method,
+                'params':params,
+                'id':id});
+
+        rpc_json = jsonrpc._get_rpc_json(method, params, id)
+
+        self.assertEqual(rpc_json, expected_rpc_json)
+
+    def test_rpc_id(self):
+        method = 'foo'
+        params = {'a':1, 'b':'foo'}
+
+        rpc_json = jsonrpc._get_rpc_json(method, params)
+        rpc = json.loads(rpc_json)
+        
+        self.assertIsNotNone(rpc['id'])
+        self.assertEquals(len(rpc['id']), jsonrpc.ID_LENGTH)
+
+    def test_rpc(self):
+        url = 'http://localhost'
+        method = 'foo'
+        params = {'a':1, 'b':'foo'}
+        id = 'test_id'
+        rpc_json = jsonrpc._get_rpc_json(method, params, id)
+        response_json = '{"jsonrpc": "2.0", "result": "", "id": "%s"}' % id
+        expected_response = json.loads(response_json)
+
+        m = mox.Mox()
+        mock_file = m.CreateMock(file)
+        mock_file.read().AndReturn(response_json)
+
+        m.StubOutWithMock(urllib2, 'urlopen')
+        urllib2.urlopen(mox.IgnoreArg(), rpc_json).AndReturn(mock_file)
+        
+        m.ReplayAll()
+
+        response = jsonrpc.rpc(method, params, url, id)
+        self.assertEqual(expected_response, response)
+
+        m.VerifyAll()
+        
+class TestController(unittest.TestCase):
+    def test_run(self):
+        event_manager = EventManager([])
+        controller = Controller(event_manager)
+
+        controller_thread = threading.Thread(target=controller.run)
+        controller_thread.start()
+
+        controller.stop()
+        controller_thread.join()
+    
+    def test_handle_event(self):
+        # This function should be a no-op, nothing should be called on
+        # the EventManager
+        mock_event_manager = mox.MockObject(EventManager)
+        mox.Replay(mock_event_manager)
+
+        controller = Controller(mock_event_manager)
+        controller.handle_event('foo')
+
+        mox.Verify(mock_event_manager)
+
+    def test_stop(self):
+        mock_event_manager = mox.MockObject(EventManager)
+        mox.Replay(mock_event_manager)
+
+        controller = Controller(mock_event_manager)
+        controller.stop()
+        controller.run()
+
+        mox.Verify(mock_event_manager)
+
+
+class TestCommunicationsInterface(unittest.TestCase):
+    def test_listen(self):
+
+        # listen should return a ListenerThread instance
+        thread = CommunicationsInterface.listen(None, None)
+        self.assertIsInstance(thread, ListenerThread)
+        
+    def test_broadcast_data(self):
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.setblocking(0)
+        server_socket.bind(('localhost', 8001))
+        server_socket.listen(1)
+
+        test_message = 'test_message'
+
+        # Verify that broadcast data is sent via socket
+        CommunicationsInterface.broadcast_data(test_message, [('localhost', 8001)])
+
+        readable, writable, exceptional = select.select(
+            [server_socket], [], [], 1)
+        
+        self.assertEqual(len(readable), 1)
+        
+        (client_socket, address) = readable[0].accept()
+        received_data = ''
+        while True:
+            data = client_socket.recv(1024)
+            received_data += data
+            if not data:
+                break
+
+        self.assertEqual(received_data, test_message)
+
+    def test_broadcast_data_error(self):
+        # No exception should be raised here
+        CommunicationsInterface.broadcast_data('test_message',
+                                               [('localhost', 8001)])
+        
+
+
 
 class TestEvent(unittest.TestCase):
     def test_event_init(self):
@@ -34,9 +318,7 @@ class TestEvent(unittest.TestCase):
     def test_sensor_event(self):
         event_type = EventType.DOOR_SENSOR_EVENT
         sensor_id = 12 
-
         event = SensorEvent(event_type, sensor_id)
-
         self.assertEqual(event.get_sensor_id(), sensor_id)
 
     def test_door_sensor_event(self):
@@ -44,20 +326,18 @@ class TestEvent(unittest.TestCase):
         sensor_id = 12 
         door_id = 1
         opened = True
-
-        event = DoorSensorEvent(event_type, sensor_id, door_id, opened )
-
+        
+        event = DoorSensorEvent(sensor_id, door_id, opened )
         self.assertEqual(event.get_door_id(), door_id)
         self.assertEqual(event.get_opened(), opened)
-    
+
     def test_window_sensor_event(self):
         event_type = EventType.WINDOW_SENSOR_EVENT
         sensor_id = 11 
         window_id = 2
         opened = True
 
-        event = WindowSensorEvent(event_type, sensor_id, window_id, opened)
-
+        event = WindowSensorEvent(sensor_id, window_id, opened)
         self.assertEqual(event.get_window_id(), window_id)
         self.assertEqual(event.get_opened(), opened)
     
@@ -67,19 +347,19 @@ class TestEvent(unittest.TestCase):
         temperature = 25
         delta = 1
 
-        event = TempSensorEvent(event_type, sensor_id, temperature, delta)
+        event = TempSensorEvent(sensor_id, temperature, delta)
 
         self.assertEqual(event.get_temperature(), temperature)
         self.assertEqual(event.get_temp_delta(), delta)
-        
+
     def test_flood_sensor_event(self):
         event_type = EventType.FLOOD_SENSOR_EVENT
         sensor_id = 15
         water_height = 1
         delta = 1
 
-        event = FloodSensorEvent(event_type, sensor_id, water_height, delta)
-        
+        event = FloodSensorEvent(sensor_id, water_height, delta)
+
         self.assertEqual(event.get_water_height(), water_height)
         self.assertEqual(event.get_height_delta(), delta)
 
@@ -96,20 +376,63 @@ class TestEvent(unittest.TestCase):
         input_device_id = 19
         input_char = "a"
 
-        event = KeypadEvent(event_type, input_device_id, input_char)
+        event = KeypadEvent(input_device_id, input_char)
 
+        self.assertEqual(event.get_event_type(), event_type)
         self.assertEqual(event.get_input(), input_char)
     
     def test_NFC_input_event(self):
-        event_type = EventType.NFC_EVENT
         input_device_id = 20
         data_string = "asdfasdfasdf"
 
-        event = NFCEvent(event_type, input_device_id, data_string)
+        event = NFCEvent(input_device_id, data_string)
 
         self.assertEqual(event.get_NFC_string(), data_string)
+        self.assertEqual(event.get_event_type(), EventType.NFC_EVENT)
+
+    def test_alarm_event(self):
+        description = 'Test Alarm'
+        speech_message = 'Test Speech Message'
+        event = AlarmEvent(AlarmSeverity.MINOR_ALARM,
+                           description,
+                           speech_message)
+        self.assertEqual(AlarmSeverity.MINOR_ALARM, event.get_severity())
+        self.assertEqual(description, event.get_description())
+        self.assertEqual(speech_message, event.get_speech_message())
+
+    def test_motion_event(self):
+        start_time = datetime.utcnow() - timedelta(seconds=10)
+        end_time = datetime.utcnow()
+        current_threshold = 5
+        sensor_id = 0
+        
+        event = MotionSensorEvent(sensor_id,
+                                  current_threshold,
+                                  start_time,
+                                  end_time)
+        
+        self.assertEqual(start_time, event.get_start_time())
+        self.assertEqual(end_time, event.get_end_time())
+        self.assertEqual(current_threshold, event.get_threshold())
+        
 
 class TestEventManager(unittest.TestCase):
+    def test_broadcast_event(self):
+        test_message = 'test_message'
+        peers = [('localhost', 8000)]
+        event_manager = EventManager(peers);
+        event = 'test_event'
+
+        # Create a mock EventManager to verify it receives the test event
+        mock_event_manager = mox.MockObject(EventManager)
+        thread = ListenerThread(mock_event_manager, 8000)
+        thread.start()
+
+        event_manager.broadcast_event(event)
+
+        thread.stop()
+        thread.join()
+
     def test_listen(self):
         listen_port = 8000
         test_message = pickle.dumps('test_message')
@@ -182,28 +505,12 @@ class TestEventManager(unittest.TestCase):
         self.assertEqual(deserialized.get_event_type(), event_type)
         self.assertEqual(deserialized.get_timestamp(), timestamp)
 
-    def test_broadcast_event(self):
-        comm_interface_mock = mox.MockObject(CommunicationsInterface)
+    def test_empty_event_queue(self):
         event_manager = EventManager([]);
 
-        # Test Event
-        event_type = EventType.DOOR_SENSOR_EVENT
-        timestamp = datetime.utcnow()
-        event = Event(event_type, timestamp)
-        expected_data = EventManager.serialize_event(event)
-        
-        # Replace the comm interface with a mock
-        event_manager.communications_interface = comm_interface_mock
-        comm_interface_mock.broadcast_data(expected_data, [])
-        mox.Replay(comm_interface_mock)
+        # No exception should be raised here
+        event_manager.process_events()
 
-        # Broadcast the event
-        event_manager.broadcast_event(event)
-
-        # Verify that broadcasting uses communications interface
-        mox.Verify(comm_interface_mock)
-
-    
     #
     # Verify events are sent to subscribed controllers
     #
@@ -223,7 +530,6 @@ class TestEventManager(unittest.TestCase):
         event_manager.process_events()
 
         mox.Verify(controller)
-
 
     #
     # Verify that events are only sent to the appropriate controllers
@@ -262,6 +568,10 @@ class TestSensor(unittest.TestCase):
         self.assertEqual(sensor.get_sensor_id(), sensor_id)
         self.assertEqual(sensor.get_sensor_status(), status)
   
+    def test_sensor_invalid_use(self):
+        sensor = Sensor(0, SensorStatus.ONLINE)
+        self.assertRaises(NotImplementedError, sensor.generate_sensor_event)
+
 class TestDoorSensor(unittest.TestCase):
     def setUp(self):
         self.sensor_id = 2
@@ -442,8 +752,10 @@ class TestMotionSensor(unittest.TestCase):
         self.sensor_id = 6
         self.status = SensorStatus.ONLINE
         self.motion_threshold = 10
-        self.sensor = MotionSensor(self.sensor_id, self.status, self.motion_threshold)
-        
+        self.sensor = MotionSensor(self.sensor_id,
+                                   self.status,
+                                   self.motion_threshold)
+
     def test_motion_sensor_init(self):
         self.assertEqual(self.sensor.get_motion_threshold(), self.motion_threshold)
         self.motion_threshold = 20
@@ -524,63 +836,326 @@ class TestSensorController(unittest.TestCase):
     def setUp(self):
         self.sensor_controller = SensorController(None)
         
+    def test_add_sensor(self):
+        self.sensor_controller.add_sensor(None)        
+
+    def test_remove_sensor(self):
+        self.sensor_controller.add_sensor(None)        
+        self.sensor_controller.remove_sensor(None)        
+
     def test_handle_event(self):
-        pass 
+        self.sensor_controller.handle_event(None)
     
     def test_poll_sensor(self):
-        pass
+        self.sensor_controller.poll_sensor(None)
     
     def test_handle_sensor_input(self):
-        pass 
+        self.sensor_controller.handle_sensor_input(None)  
 
     def test_check_sensor_status(self):
-        pass
+        self.sensor_controller.check_sensor_status(None)
+
 
 class TestSystemController(unittest.TestCase):
     def setUp(self):
-        self.system_controller = SystemController(None)
+        self.event_manager = EventManager([])
+        self.system_controller = SystemController(self.event_manager)
     
-    def test_handle_event(self):
-        event = DoorSensorEvent(EventType.DOOR_SENSOR_EVENT, 1, 1, True)
-        self.system_controller.handle_event(event)
+    def test_log_event_to_server(self):
+        # This should fail gracefully with a bad URL, no exceptions
+        # should be raised
+        
+        event = Event(0)
+        system_controller = SystemController(self.event_manager,
+                                             'http://localhost:10000/')
+        system_controller.log_event_to_server(event)
+        
+    def test_log_event_to_file(self):
+        # Same conditions as test_log_event_to_server()
+        event = Event(0)
+        system_controller = SystemController(self.event_manager, "")
+        system_controller.log_event_to_file(event)
 
-        pass
 
-    def test_system_state(self):
+    def test_handle_bad_events(self):
+        event = Event(1000)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertFalse(ret_value)
+    
+    def test_getters(self):
+        inputs = self.system_controller.get_input_devices()
+        self.assertEqual(inputs, [])
+        
+        user_list = self.system_controller.get_user_list()
+        self.assertEqual(user_list, [])
+
+    def test_system_state_and_keypad_events(self):
         # Check controller's initial state
         self.assertEqual(self.system_controller.get_system_state(),
-                         SystemState.UNKNOWN) 
-        
-        # Try to arm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'a')
-        self.system_controller.handle_event(event)
-        self.assertEqual(self.system_controller.get_system_state(),
-                         SystemState.ARMED)
+                         SystemState.ARMED) 
         
         # Try to disarm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'd')
+        event = KeypadEvent(1, 'd')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(), 
                          SystemState.DISARMED)
+
+        # Try to arm with KEYPAD_EVENT
+        event = KeypadEvent(1, 'a')
+        ret_value = self.system_controller.handle_event(event)
+        self.assertEqual(self.system_controller.get_system_state(),
+                         SystemState.ARMED)
+        self.assertTrue(ret_value)
+        
+        # Turn off alarms
+        event = KeypadEvent(1, 's')
+        ret_value = self.system_controller.handle_event(event)
+        self.assertTrue(ret_value)
+
+        # Bad input
+        event = KeypadEvent(1, "r3d")
+        ret_value = self.system_controller.handle_event(event)
+        self.assertFalse(ret_value)
+
+
 
     def test_system_state_caps(self):
         # Check controller's initial state
         self.assertEqual(self.system_controller.get_system_state(),
-                         SystemState.UNKNOWN) 
+                         SystemState.ARMED) 
         
+        # Try to disarm with KEYPAD_EVENT
+        event = KeypadEvent(1, 'D')
+        self.system_controller.handle_event(event)
+        self.assertEqual(self.system_controller.get_system_state(), 
+                         SystemState.DISARMED)
+
         # Try to arm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'A')
+        event = KeypadEvent(1, 'A')
+        self.system_controller.handle_event(event)
+        self.assertEqual(self.system_controller.get_system_state(),
+                         SystemState.ARMED)
+    
+    def test_door_event_handler_closed(self):
+        # Arm the system
+        event = KeypadEvent(1, 'A')
+        self.system_controller.handle_event(event)
+        
+        event = DoorSensorEvent(1, 2, False)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertEqual(ret_value, False) 
+        
+        event = KeypadEvent(1, 'D')
+        self.system_controller.handle_event(event)
+
+        event = DoorSensorEvent(1, 2, False)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertEqual(ret_value, False) 
+
+    def test_door_event_handler_opened_armed(self):
+        event = KeypadEvent(1, 'A')
+        self.system_controller.handle_event(event)
+        
+        event = DoorSensorEvent(1, 2, True)
+         
+        m = mox.Mox()
+        mock_raise_alarm = m.CreateMockAnything()
+        self.system_controller.door_timer_delay = 0.1
+        self.system_controller.raise_alarm = new.instancemethod(
+            mock_raise_alarm,
+            self.system_controller)
+        mock_raise_alarm(self.system_controller,
+                        AlarmEvent(AlarmSeverity.MAJOR_ALARM,"Door opened!","Intrusion Detected"))
+
+        m.ReplayAll()
+        self.system_controller.handle_event(event)
+        thread_count = threading.active_count()
+        while threading.active_count() == thread_count:
+            time.sleep(0)
+
+        m.VerifyAll()
+    
+    def test_door_event_handler_opened_disarmed(self):
+        event = KeypadEvent(1, 'A')
+        self.system_controller.handle_event(event)
+
+        event = DoorSensorEvent(1,2,True)
+         
+        self.system_controller.door_timer_delay = 0.2
+        m = mox.Mox()
+        mock_raise_alarm = m.CreateMockAnything()
+        self.system_controller.raise_alarm = new.instancemethod(
+            mock_raise_alarm,
+            self.system_controller)
+        m.ReplayAll()
+        self.system_controller.handle_event(event)
+
+        # Disarm the system in the mean time.
+        event = KeypadEvent(1, 'd')
+        self.system_controller.handle_event(event)
+
+        thread_count = threading.active_count()
+        while threading.active_count() == thread_count:
+            time.sleep(0)
+
+        m.VerifyAll()
+
+    def test_window_event_handler(self):
+        # Arm the system
+        event = KeypadEvent(1, 'A')
         self.system_controller.handle_event(event)
         self.assertEqual(self.system_controller.get_system_state(),
                          SystemState.ARMED)
         
-        # Try to disarm with KEYPAD_EVENT
-        event = KeypadEvent(EventType.KEYPAD_EVENT, 1, 'D')
+        # Test an window opening with system armed
+        event = WindowSensorEvent(1, 1, True)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertTrue(ret_value)
+        
+        # Test a closed window...
+        event = WindowSensorEvent(1,1,False)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertFalse(ret_value)
+
+        # Disarm the system
+        event = KeypadEvent(1, 'd')
         self.system_controller.handle_event(event)
-        self.assertEqual(self.system_controller.get_system_state(), 
-                         SystemState.DISARMED)
-                
+
+         # Test an window opening with system disarmed
+        event = WindowSensorEvent(1, 1, True)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertFalse(ret_value)
+
+        # Test a closed window...
+        event = WindowSensorEvent(1,1,False)
+        ret_value = self.system_controller.handle_event(event)
+        self.assertFalse(ret_value)
+
+    def test_flood_event_handler(self):
+        # Arm the system
+        event = KeypadEvent(1, 'A')
+        self.system_controller.handle_event(event)
+        self.assertEqual(self.system_controller.get_system_state(),
+                         SystemState.ARMED)
+        test_vector = [
+                        {'height' : 0 , 'delta' : 0, 'ret_value' : False},
+                        {'height' : 1 , 'delta' : 0, 'ret_value' : True},
+                        {'height' : 0 , 'delta' : 1, 'ret_value' : True},
+                        {'height' : 3 , 'delta' : 0, 'ret_value' : True},
+                        {'height' : 1 , 'delta' : 3, 'ret_value' : True}
+                      ]
+
+        for test in test_vector:
+            event = FloodSensorEvent(1,test['height'], test['delta'])
+            ret_value = self.system_controller.handle_event(event)
+            self.assertEqual(ret_value, test['ret_value'])
+
+        # Disarm the system -- Nothing should change in the test cases...
+        event = KeypadEvent(1, 'D')
+        self.system_controller.handle_event(event)
+        
+        for test in test_vector:
+            event = FloodSensorEvent(1,test['height'], test['delta'])
+            ret_value = self.system_controller.handle_event(event)
+            self.assertEqual(ret_value, test['ret_value'])
+
+    def test_temp_sensor_event(self):
+        # TODO :: setup mox to check the alarm event severity...
+
+        # Arm the system.
+        event = KeypadEvent(1, 'a')
+        self.system_controller.handle_event(event)
+        
+        test_vector = [
+                        {'temp' : 0, 'delta' : 0, 'ret_value' : True},
+                        {'temp' : 18, 'delta' : 0, 'ret_value' : False},
+                        {'temp' : 25, 'delta' : 0, 'ret_value' : False},
+                        {'temp' : 27, 'delta' : 0, 'ret_value' : True},
+                        {'temp' : 15, 'delta' : 0, 'ret_value' : True},
+                        {'temp' : 33, 'delta' : 0, 'ret_value' : True},
+                        {'temp' : 25, 'delta' : 2, 'ret_value' : False},
+                        {'temp' : 25, 'delta' : 3, 'ret_value' : True},
+                        {'temp' : 25, 'delta' : 5, 'ret_value' : True},
+                        {'temp' : 25, 'delta' : 10, 'ret_value' : True}
+                      ]
+        
+        for test in test_vector:
+            event = TempSensorEvent(1, test['temp'], test['delta'], )
+            ret_value = self.system_controller.handle_event(event)
+            self.assertEqual(ret_value, test['ret_value'])
+        
+        # Disarm the system, ensure that it is system state independent...
+        event = KeypadEvent(1, 'd')
+        self.system_controller.handle_event(event)
+
+        for test in test_vector:
+            event = TempSensorEvent(1, test['temp'], test['delta'])
+            ret_value = self.system_controller.handle_event(event)
+            self.assertEqual(ret_value, test['ret_value'])
+        
+    def test_motion_event(self):
+        # Arm the system
+        event = KeypadEvent(1, "a")
+        self.system_controller.handle_event(event)
+        
+        test_vector = [
+                        # Start a motion event, but it doesn't have an end time
+                        {'threshold' : 10, 'start_time' : datetime.utcnow(),
+                        'end_time' : None, 'ret_value' : False}, 
+                        # Motion event that will send an alarm
+                        {'threshold' : 10, 'start_time' : datetime.utcnow(),
+                        'end_time' : datetime.utcnow() + timedelta(0,3600),
+                        'ret_value' : True},
+                        # Motion event representing a glitch
+                        {'threshold' : 10, 'start_time' : datetime.utcnow(),
+                        'end_time' : datetime.utcnow() + timedelta(0,5), 
+                        'ret_value' : False},
+                        # Motion event in the past that will send an alarm
+                        {'threshold' : 10, 
+                        'start_time' : datetime(2012, 3, 15, 23, 33),
+                        'end_time' : datetime(2012,3,15,23,35), 
+                        'ret_value' : True},
+                        # Motion event in the past that will not send an alarm
+                        {'threshold' : 10, 
+                        'start_time' : datetime(2012, 3, 15, 23, 33),
+                        'end_time' : datetime(2012,3,15,23,33,5),
+                        'ret_value' : False}
+                      ]
+
+        # Motion started
+        for test in test_vector:
+            event = MotionSensorEvent(1,
+                                      test['threshold'],
+                                      test['start_time'],
+                                      test['end_time'])
+            
+
+            ret_value = self.system_controller.handle_event(event)
+            self.assertEqual(ret_value, test['ret_value']) 
+
+        # Disarm the system
+        event = KeypadEvent(1, "d")
+        self.system_controller.handle_event(event)
+        
+        # Everything should return False
+        for test in test_vector:
+            event = MotionSensorEvent(1, test['threshold'], test['start_time'],
+                                      test['end_time'])
+            ret_value = self.system_controller.handle_event(event)
+            self.assertEqual(ret_value, False)
+    
+    def test_alarm_handler(self):
+        event = AlarmEvent(AlarmSeverity.MINOR_ALARM, "","")
+        ret_value = self.system_controller.handle_event(event)
+        self.assertTrue(ret_value)
+    
+    def test_nfc_event_handler(self):
+        # Should just return False, nothing should happen in this case since it
+        # is outside of implementation scope. This is for complete coverage.
+        event = NFCEvent(1,"test")
+        ret_value = self.system_controller.handle_event(event)
+        self.assertFalse(ret_value)
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
     unittest.main()

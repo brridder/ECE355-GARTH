@@ -1,3 +1,11 @@
+#
+#   InputDevice.py
+#
+#   Representations of the physical input devices.
+#
+#   Each input device can raise an event.
+#
+
 from event import *
 from event_type import EventType
 
@@ -17,7 +25,7 @@ class NFCReaderInputDevice(InputDevice):
         self.data = data
         
     def generate_NFC_event(self):
-        return NFCEvent(EventType.NFC_EVENT, self.device_id, self.data)
+        return NFCEvent(self.device_id, self.data)
 
 class KeypadInputDevice(InputDevice):
     def __init__(self, device_id):
@@ -28,5 +36,4 @@ class KeypadInputDevice(InputDevice):
         self.input_char = char
 
     def generate_keypad_event(self):
-        return KeypadEvent(EventType.KEYPAD_EVENT, self.device_id,
-                            self.input_char)
+        return KeypadEvent(self.device_id, self.input_char)
