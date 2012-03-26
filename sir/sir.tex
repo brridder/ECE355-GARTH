@@ -204,13 +204,44 @@ to verify that the logic in the various state machines was
 correct. The console was also used during the project demo to
 demonstrate the high level functionality of the system.
 
-\section{Error Handling} 
+\section{Error Handling} % Casey
 % 10%
 % Describe potential and realistic faults that could occur in the
 % implementation and how the system prevents, detects, mitigates, and/or
 % recovers from failure. For instance, describe whether the implementation
 % performs error checking on user input, recovers from interrupted
 % commmunication, or handles component failure.
+
+The GARTH implementation contains both error handling as well as
+logging functionality. However, several potential faults
+exist. Firstly, faults can occur within the communication stack if
+there is a problem with any of the socket connections. Secondly, there
+are potential faults if the remote server is inaccessible. However,
+GARTH does include user input validation and prevents faults related
+to erroneous input.
+
+The communications stack contains exception handling logic to mitigate
+the risk of failed or interrupted socket connections. If an error
+occurs while establishing a client socket, an exception is thrown by
+the underlying Python socket library this exception is handled by
+GARTH by printing an error message. This behaviour is the same if an
+existing socket connection encounters some other error; an exception
+is raised by the sockets library and handled by GARTH.
+
+If a connection cannot be opened to the external webserver, GARTH will
+log an error message, but it will not attempt to reconnect to the
+server.
+
+The test sensor console used in GARTH testing contains several fields
+where the user can enter arbitrary input. This input determines what
+appears in the various fields of the Event objects that are created
+and sent by the sensor console. However, the fields of the Event
+objects have specific types. To avoid potential faults, the sensor
+console attempts to convert the user input to the required type, and
+if that conversion fails, will not send the particular Event. For
+example, if the field is required to be an integer, but the user
+enters a string, the type conversion will fail and the particular
+Event that field corresponds to will not be sent.
 
 \section{Test Results}
 % 20%
@@ -225,12 +256,13 @@ demonstrate the high level functionality of the system.
 % List any outstanding faults, deficiences, or missing features, and make
 % recommendations on how they should be addressed in the final version.
 
-The implemented design was light on error-handling, as much of the main focus
-was in regards to getting robust functionality in place. As a result, the intended
-error cases for sensor communication failure and sensor low-battery were not
-in place when the subset of the design was implemented. Although there was no
-way to emulate sensor failure in the demo, this error case is trivial to put in
-place and will be ready for the final version.
+The implemented design was light on error-handling, as much of the
+main focus was in regards to getting robust functionality in place. As
+a result, the intended error cases for sensor communication failure
+and sensor low-battery were not in place when the subset of the design
+was implemented. Although there was no way to emulate sensor failure
+in the demo, this error case is trivial to put in place and will be
+ready for the final version.
 
 Another missing feature for the implemented software was distinct user
 authentication. Although the access array and access control matrix was fully
