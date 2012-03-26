@@ -251,6 +251,37 @@ Event that field corresponds to will not be sent.
 % integration. Do not include full test case descriptions, but rather, describe
 % the tests that were executed in general terms.
 
+Unit testing was extensively used while GARTH was being
+implemented. Every method in every class within the GARTH
+implementation has a test case. This test case will provide inputs and
+ensure that the function produces the correct outputs or changes in
+state. 
+
+A main goal during the testing of GARTH was to achieve 100\% test
+coverage. This means that every line of code in the GARTH
+implemenation is executed at some point during the run of the test
+suite. This statistic is particulary important for an interpreted
+language like Python because some code is not parsed until it is run,
+therefore some errors may not appear until runtime. If every line of
+code is run during the test suite, the developer can be assured that
+none of these errors exist in the codebase. The test coverage report
+for the GARTH implementation can be found in Figure\~ref{fig:test\_coverage}.
+
+\floatstyle{plain}
+\restylefloat{figure}
+\begin{figure}[hp]
+    \centering
+        \caption{Test Coverage Results}
+        \scriptsize
+        \setlength{\unitlength}{2.0em}
+        \includegraphics[scale=0.5]{test_coverage.png}
+        \normalsize
+    \label{fig:test_coverage}
+\end{figure}
+\floatstyle{boxed}
+\restylefloat{figure}
+
+
 \section{Outstanding Issues} % Zach
 % 10%
 % List any outstanding faults, deficiences, or missing features, and make
