@@ -92,6 +92,30 @@ functionality.
 % Summarize any changes that were required to the design specified in the
 % Design Document, and jusity the design deviations.
 
+% left out hardware interface: sockets instead
+% Moved subscribeToEvent to eventManager3
+% Simple logging functionality
+% Sending startup and shutdown events
+
+There were not many major changes required in the implementation of the system.
+The major one was the change from using radios to using sockets to communicate
+between the controllers and the simulated hardware. This was out of necessity
+as there was no plans to implement hardware sensors in the initial release. A
+more minor change was moving the function
+\texttt{subscribeToEvent(event:Event)} from the controllers described in
+Figures~5.2, 5.3, and 5.4 in the design document to the event manager found in
+Figure~5.5. The design of controllers and event manager makes it so that it
+does not make sense for the controller to subscribe to events on itself, but
+rather call into the event manager to do so.
+
+The next change was to add a simple logging functionality using text files and
+JSON. This will allow for quick searching of triggered events which will assist
+in debugging. It will also be simple to add the logged events to a database
+once it is implemented via a script. Finally, the last change was the addition
+of sending controller start up and shut down events to the server and log
+files. This provides an easier means to see the status of the controllers and
+the errors associated with them through the mobile applications.
+
 \section{Transformation to Implementation} % Ben
 % 10%
 % Summarize how the design was mapped to the implementation. Consider the
