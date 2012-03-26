@@ -33,6 +33,48 @@
 % prototype. Describe the main use cases supported by the implementation. List
 % any significant requirements not implemented due to time constraints.
 
+The purpose of this document is to discuss the software implementation that was
+created and presented to the evaluators. This software was based on the structure
+and guidelines as stated by the software requirements specification document and
+software design document that had previously been drafted. This document is
+intended to be able to bridge these previous documents with the piece of software
+that had been implemented. It will give insight into many of the various design
+decisions as well as any changes that were made to the software in which the
+implementation had varied from the design as stated in the SDD. It will discuss
+testing strategies and results, error handling and what errors were accounted
+for, how to install a run the software, as well as the extensibility of the design.
+
+The intended audience of this document are the evaluators of the software project.
+They need to be able to make connections with the two previous software documents,
+and this document will strive to meet that criteria by discussing the topics mentioned
+above. Through reading this implementation report they should be able to see
+what subset of the overall design was implemented, what changes were made to
+the portions that were indeed implemented, and how to install and run the software
+should they feel the need to evaluate it from a closer perspective.
+
+The portion of the design that was implemented was a somewhat small but very
+significant portion of the overall proposed design. The implemented design
+included a server mock-up with transient storage meant to emulate the server
+design. The system controller as presented in the software design document was
+realized in the implementation, and communicated with the server and the mobile
+applications through the communication stack via sockets. There were two mobile
+applications implemented, one of which ran on the Android platform and the other
+ran on iOS in order to emulate the cases where a user had either an iPhone or an
+Android smartphone. Finally a basic GUI was designed to emulate the triggering
+of sensors positioned around the home. These sensors were designed to be able
+to replicate the use cases that were implemented. The use cases that were
+accounted for originated from the software requirements specification and include:
+
+\begin{itemize}
+\item Arming and disarming the system through use of a keypad
+\item Door sensor events to detect intruders if system is armed
+\item Window intrusion detection if system is armed while a window is opened
+\item Irregular thermostat behaviour and over-temperature conditions
+\item Flood detection if basement water levels reach an unsuitable level
+\item Motion sensors to detect movement in the home while the system is armed
+\end{itemize}
+
+
 \section{Changes to the Design} % Zach
 % 10%
 % Summarize any changes that were required to the design specified in the
