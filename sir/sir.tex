@@ -44,6 +44,41 @@
 % process model, process communication, storage schema, and other areas were
 % implementation decisions were made.
 
+The classes of the system were mapped from the class diagrams in the UML of the
+design document in figures of Chapter~5. 
+
+The controllers are run on separate threads so that they can all respond to
+events in a timely manner. The event manager, which the controllers and devices
+use to communicate through, is run on two separate threads, the main thread and
+an additional one, in the same process as the controllers. This was to allow
+for the event manager to be able to enqueue events from the controllers without
+blocking sending of the events to the controllers.
+
+Database storage was omitted from this release, but there is a simple log of
+the events stored with the controllers in JSON format. This log can be easily
+parsed into a database with a script once a database has been implemented into
+the system.
+
+The process model was kept simple. The controllers talked to the event manager.
+The event manager and the devices talked to each other through sockets. A
+sensor console user interface was created to assist in sending sensor events
+through the sockets to the event manager and eventually the controllers. The
+system controller handled what to do for each event type. If an alarm event
+needed to be fired off, then the system controller instantiated it and sent it
+to the event manager to be sent to the alarm devices and alarm controller.
+Every event handled by the system controller was sent to a web server through
+JSON-RPC. 
+
+A web server maintained a list of events in memory. These events were fetched
+by the two mobile applications for iOS and Android platforms. Events are
+viewable on either application depending on what the user has. The iOS
+application, due to the overhead required to properly store and display data,
+was written in a similar manner to the system itself. Each event type is
+represented as a class with proper usage of inheritance. The Android
+application, with it's more flexible libraries, was able to use a list data
+structure and display the data without first creating models. Both applications
+can be easily extended as required by future needs.
+
 \section{Testing Strategy} % Casey 
 % 10%
 % Identify the general approach taken to testing. For example, discuss the
