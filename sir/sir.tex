@@ -7,10 +7,10 @@
 \usepackage{multirow}
 \usepackage{bibentry}
 %\nobibliography*
-%\usepackage[T1]{fontenc}
+\usepackage[T1]{fontenc}
 %\usepackage{lscape}
 %\usepackage[parfill]{parskip}
-
+\usepackage{listings}
 \setlength{\extrarowheight}{4pt}
 
 \graphicspath{{./images/}}
@@ -19,9 +19,18 @@
 \restylefloat{figure}
 
 \begin{document}
+
+\lstset{language=sh,
+        frame=single,
+        breaklines=true,
+        basicstyle=\small\ttfamily,
+        columns=fullflexible}
+
+
 \input{title.tex}
 \tableofcontents
 \listoffigures
+\lstlistoflistings
 %\listoftables
 
 \section{Purpose and Scope of Implementation} % Zach
@@ -189,13 +198,45 @@ demonstrate the high level functionality of the system.
 % List any outstanding faults, deficiences, or missing features, and make
 % recommendations on how they should be addressed in the final version.
 
-\section{Build and Installation Instructions}
+\section{Build and Installation Instructions} % Ben
 % 10%
 % Provide a brief outline of the steps required for compiling, installing, and
 % running the implementation given a copy of the submitted source code. List
 % any development tools and libraries that are required.
 
-\section{Extensibility}
+No compilation is required for the controller, console, and web server.
+Installation is as simple as running the correct programs with several
+parameters such as listening ports, peers, and remote URLs. The following
+development tools and libraries are required for running the
+system:
+\begin{itemize}
+\item Python 2.7 
+\item Mox -- for running the test suite
+\item wxPython -- for the sensor controller
+\item node.js ($\ge$ v0.4) -- for running the web server
+\end{itemize}
+
+Listing~\ref{install-instructions} details the instructions for running the
+various components of the system. It is assumed that all of the components are
+running on the same computer using port \texttt{8000} to communicate through
+sockets between peers. The server is located at \texttt{127.0.0.1} on port
+\texttt{3000}.
+
+\lstset{caption={Running instructions},
+        label=install-instructions}
+\begin{lstlisting}
+$ ./run_controllers -r http://127.0.0.1:3000 -l 8000 & 
+$ ./sensor_console.py -p localhost:8000 &
+$ cd server
+$ node app.js
+\end{lstlisting}
+
+The mobile applications do need to be compiled and downloaded to device. For
+the iOS application, a device needs to have a valid provisioning profile and
+development account in order to download the beta application to it. The
+Android version works without any special permissions.
+
+\section{Extensibility} 
 % 10%
 % Recommend any functional and non-functional improvments to make in the final
 % version of the implementation to be released or a subsequent version. These
