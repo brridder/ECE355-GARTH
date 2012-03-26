@@ -228,7 +228,7 @@ more permanent storage solution in the form of a database.
 
 \section{Extensibility} Zack
 % 10%
-% Recommend any functional and non-functional improvments to make in the final
+% Recommend any functional and non-functional improvments to make in the final.
 % version of the implementation to be released or a subsequent version. These
 % may address use cases that have already been described, or have been
 % considered following completion of the Design Document. For instance,
@@ -236,6 +236,30 @@ more permanent storage solution in the form of a database.
 % to more users, function with new types of components, or be more accessible.
 % Give specific examples consistant with the present implementation.
 
+Since the implementation was a subset of the design as presented in the design
+document, there is much left to be implemented that would add significant scale
+to the system. For example, the mobile apps could be extended to add more
+robust functionality as well as provide the user with more control over the
+GARTH home system and its configuration. In its current iteration, the mobile app
+is very light on settings and functionality. By adding proper user authentication
+using the access control matrix, users with adequate permissions could easibly
+configure the system through the mobile app which would communicate with the
+server.
 
+As mentioned above, having more error handling could improve the reliability
+of the system. If a system were implemented for detecting sensor failure,
+low-battery, or a communication problem then the system would be less likely
+to fail in an ungraceful manner. The user would be notified that a failure has
+occurred and would be able to get the sensor fixed or replaced in a timely manner.
+This would ensure a much better user experience overall.
+
+Another way to demonstrate the extensibility of the GARTH design would be to
+examine the simplicity at which a new sensor or component could be added to the
+system. The way the different sensor classes inherit from the sensor class and
+the fact that they include a sensor ID field allows for a new sensor of an 
+existing type to be added easily. For example, if the front door is fitted with
+a door sensor and another one were to be added to the back door, this would
+be pretty much a plug and play procedure due to the nature of the class structure
+as implemented with the sensor ID system.
 
 \end{document}
