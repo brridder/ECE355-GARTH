@@ -1,3 +1,16 @@
+#   
+#   Controller.py
+#
+#   Base class for controllers to inherit.
+#   
+#   Handles simple threading operations for controllers: stop(), run()
+#
+#   Constructor takes in an event_manager which is used to
+#   broadcast and receive events.
+#
+#   Defines inheritance relationships: handle_event()
+#
+
 import threading
 from eventmanager import EventManager
 

@@ -1,10 +1,19 @@
 #!/usr/bin/env python2
 
+#
+#   run_controllers.py
+#
+#   Takes in command line arguements and spools up controller on seperate
+#   threads with the appropriate commands.
+#
+
+
 import sys
 import signal
 import logging
 import argparse
 import threading
+from event import AlarmEvent, AlarmSeverity
 from eventmanager import EventManager
 from sensorcontroller import SensorController
 from systemcontroller import SystemController
@@ -63,6 +72,10 @@ if __name__ == '__main__':
 
     logging.info('Controllers started')
 
+    system_controller.log_event_to_server(AlarmEvent(AlarmSeverity.MAJOR_ALARM,
+                                                     'GARTH starting up', 
+                                                     ''))
+
     # Watch threads
     while len(threads) > 0:
         try:
@@ -78,3 +91,8 @@ if __name__ == '__main__':
                 controller.stop()
 
     logging.info('All controllers stopped')
+    system_controller.log_event_to_server(AlarmEvent(AlarmSeverity.MAJOR_ALARM,
+                                                     'GARTH shutting down', 
+                                                     ''))
+    
+    

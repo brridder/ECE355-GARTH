@@ -1,5 +1,14 @@
 #!/usr/bin/env python2
 
+# 
+#   test.py
+#
+#   Contains the test cases for the system using Test Driven Development.
+#
+#   A test is written before the function to define the requirements of the
+#   function.
+#
+
 import new
 import mox
 import json
@@ -861,6 +870,11 @@ class TestSystemController(unittest.TestCase):
                                              'http://localhost:10000/')
         system_controller.log_event_to_server(event)
         
+    def test_log_event_to_file(self):
+        # Same conditions as test_log_event_to_server()
+        event = Event(0)
+        system_controller = SystemController(self.event_manager, "")
+        system_controller.log_event_to_file(event)
 
 
     def test_handle_bad_events(self):

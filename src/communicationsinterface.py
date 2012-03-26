@@ -1,3 +1,10 @@
+#
+#   CommunicationsInterface.py
+#   
+#   Provides the interface for the EventManger to listen and broadcast events
+#   from controllers and sensors using sockets.
+#
+
 import time
 import pickle
 import select

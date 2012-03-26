@@ -1,3 +1,11 @@
+#
+#   InputDevice.py
+#
+#   Representations of the physical input devices.
+#
+#   Each input device can raise an event.
+#
+
 from event import *
 from event_type import EventType
 

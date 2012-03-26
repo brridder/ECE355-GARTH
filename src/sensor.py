@@ -1,3 +1,13 @@
+#
+#   Sensor.py
+#
+#   Code representations of physical sensors. Each sensor can generate an event
+#   on command through generate_sensor_event().
+#
+#   Each sensor has a status associated with it.
+#
+
+
 from event import *
 from datetime import datetime
 from event_type import EventType

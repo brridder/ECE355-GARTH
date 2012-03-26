@@ -1,3 +1,10 @@
+#
+#   jsonrpc.py
+#
+#   Takes care of converting parameters into a JSON remote procedure call for
+#   making API calls to the server
+#
+
 import json
 import string
 import random

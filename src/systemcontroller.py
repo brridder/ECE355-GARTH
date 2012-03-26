@@ -1,3 +1,14 @@
+#
+#   SystemController.py
+#
+#   Main controller of the system. Handles state, sensor events, and pushing
+#   alarm events. Sends events to the logging server.
+#
+#   Constructor: EventManager event_manager, string server_URL
+#
+#   Public methods: handle_event(Event event), raise_alarm(AlarmEvent event)
+#   
+
 from controller import Controller
 from event_type import EventType
 from event import *
@@ -6,6 +17,11 @@ from threading import Timer
 import logging
 import jsonrpc
 import urllib2
+import json
+
+#
+# Constant strings for alarm messages 
+#
 
 STR_ALARM_DOOR_DESC = "Door opened!"
 STR_ALARM_DOOR_SPEECH = "Intrusion Detected"
@@ -27,6 +43,10 @@ STR_ALARM_TEMP_CRIT_SPEECH = "Please vacate the premisses"
 
 STR_ALARM_MOTION_SPEECH = "Motion detected"
 STR_ALARM_MOTION_DESC = "Motion detected"
+
+#
+# Parameters for the limits of alarm notification.
+#
 
 FLOOD_DELTA_HEIGHT_CRIT = 3
 
@@ -131,7 +151,6 @@ class SystemController(Controller):
             return True
         return False
     
-    # Tested
     def _handle_flood_event(self, event):
         """ Handle flood events. Alarm severity is dependent on the water
         height and delta values """
@@ -156,7 +175,6 @@ class SystemController(Controller):
         self.raise_alarm(alarm)
         return True
     
-    # Tested
     def _handle_temp_event(self, event):
         """ Handle temperature events. Alarm severity varies depending on the
         temperature and delta values."""
@@ -190,7 +208,6 @@ class SystemController(Controller):
         self.raise_alarm(alarm)
         return True
     
-    # Tested
     def _handle_motion_event(self, event):
         """ Handle motion events. Only concerned for when system is armed.
         Assumes that there will be an end time for event to be handled
@@ -234,6 +251,12 @@ class SystemController(Controller):
                 jsonrpc.rpc('log_event', [event], self._server_url)
             except urllib2.URLError, e:
                 logging.error("RPC Error: %s" % e)            
+    
+    def log_event_to_file(self, event):
+        """Save the event in a json to a file"""
+        f = open("events.log", 'a')
+        f.write(json.dumps(event, cls=EventEncoder))
+        f.close()
 
     # 
     # Outside of implementation scope

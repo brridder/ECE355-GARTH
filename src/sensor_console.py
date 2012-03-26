@@ -1,5 +1,12 @@
 #!/usr/bin/env python2
 
+#
+#   sensor_console.py
+#
+#   User interface for a sensor bank. Different event types are represented and
+#   are sent to the controllers when activated.
+#
+
 import wx
 import logging
 import argparse
