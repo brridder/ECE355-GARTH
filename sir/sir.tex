@@ -74,6 +74,9 @@ accounted for originated from the software requirements specification and includ
 \item Motion sensors to detect movement in the home while the system is armed
 \end{itemize}
 
+These use cases were made as consistent as possible with the software requirements
+specification with the exception of added robustness for error cases and extra
+functionality.
 
 \section{Changes to the Design} % Zach
 % 10%
@@ -188,6 +191,34 @@ demonstrate the high level functionality of the system.
 % 10%
 % List any outstanding faults, deficiences, or missing features, and make
 % recommendations on how they should be addressed in the final version.
+
+The implemented design was light on error-handling, as much of the main focus
+was in regards to getting robust functionality in place. As a result, the intended
+error cases for sensor communication failure and sensor low-battery were not
+in place when the subset of the design was implemented. Although there was no
+way to emulate sensor failure in the demo, this error case is trivial to put in
+place and will be ready for the final version.
+
+Another missing feature for the implemented software was distinct user
+authentication. Although the access array and access control matrix was fully
+explained in the software design document, user ID and password authentication
+was not put in place for the implementation of the subset. However, for the
+purposes of the software demo unique user experiences were emulated with the
+fact that mutliple mobile applications were able to run simultaneously. This
+showed how the software would behave given that more than one user was
+manipulating the system at once. Creating a scheme for logging into these 
+applications will be implemented for the final version of the design by 
+creating a log-in screen for the mobile app that queries the access array
+and control matrix for ID and password verification as well as setting permission
+levels to each user.
+
+Finally, the implemented software that was presented did not have persistant
+storage for the server. Instead, the logs were cleared every time the server
+was reset. This was not an issue for the case of the demo as the server remained
+active the entire time, however it did not adequately show how the final version
+would have behaved in the case of an unexpected server reboot. In order to fix
+this, a simple XML file could be created that would be able to provide us with a
+more permanent storage solution in the form of a database.
 
 \section{Build and Installation Instructions}
 % 10%
