@@ -136,7 +136,37 @@ added. Secondly, larger tests were written that verified
 interoperability of the various GARTH components. Finally, a sensor
 test console program was created for integration testing purposes.
 
+Test-driven development was used to ease development by reducing the
+risk of introducing bugs when adding new code and changing existing
+code. In this strategy, when a developer was about to add some new
+functionality, a unit test for that functionality was added
+first. This way, the developer can interpret the software spec once,
+write the test, then concentrate on adding the functionality to pass
+the test. This reduces the time that the developer spends context
+switching between reading the software specification and the code
+itself. Another added benefit of this testing strategy was that every
+line of code in the project was executed at some point by the test
+suite; this means that any refactor that was made could easily be
+verified by simply re-running the test suite.
 
+Larger automated tests were written that verified that the different
+parts of GARTH communicated correctly. Any time that a communication
+channel between two components was implemented by the developer, an
+automated test for that communications channel was added. For example,
+when socket connections were added to the communications stack,
+automated tests were added that verified that the data sent via
+sockets was correct. Having automated tests with a larger scope
+allowed for large refactors to be made during development with minimal
+risk.
+
+Finally, in order to test the system's behaviour in response to the
+various inputs it could receive, a test sensor console program was
+created. This program consisted of a GUI with buttons to trigger each
+type of Event in the system, as well as text fields to customize the
+specific fields in each Event subclass. This sensor console was used
+to verify that the logic in the various state machines was
+correct. The console was also used during the project demo to
+demonstrate the high level functionality of the system.
 
 \section{Error Handling} 
 % 10%
