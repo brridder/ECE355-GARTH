@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass{article}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{fullpage}
@@ -21,10 +21,10 @@
 \begin{document}
 \input{title.tex}
 \tableofcontents
-%\listoffigures
+\listoffigures
 %\listoftables
 
-\chapter{Purpose and Scope of Implementation}
+\section{Purpose and Scope of Implementation} % Zach
 % 10%
 % State the purpose of the document and its intended audience. Refer to the
 % requirements and design documents.
@@ -33,18 +33,18 @@
 % prototype. Describe the main use cases supported by the implementation. List
 % any significant requirements not implemented due to time constraints.
 
-\chapter{Changes to the Design}
+\section{Changes to the Design} % Zach
 % 10%
 % Summarize any changes that were required to the design specified in the
 % Design Document, and jusity the design deviations.
 
-\chapter{Transformation to Implementation}
+\section{Transformation to Implementation} % Ben
 % 10%
 % Summarize how the design was mapped to the implementation. Consider the
 % process model, process communication, storage schema, and other areas were
 % implementation decisions were made.
 
-\chapter{Testing Strategy}
+\section{Testing Strategy} % Casey 
 % 10%
 % Identify the general approach taken to testing. For example, discuss the
 % manner in which subsystems were tested individually through unit testing and
@@ -52,7 +52,7 @@
 % Identify the main subsystems and interfaces included in the test plan.
 % Describe the test environment, including emulation of hardware devices.
 
-\chapter{Error Handling}
+\section{Error Handling} 
 % 10%
 % Describe potential and realistic faults that could occur in the
 % implementation and how the system prevents, detects, mitigates, and/or
@@ -60,7 +60,7 @@
 % performs error checking on user input, recovers from interrupted
 % commmunication, or handles component failure.
 
-\chapter{Test Results}
+\section{Test Results}
 % 20%
 % Summarize what testing techniques were performed on the implementation.
 % Consider tests that pertain to functionality, interfaces, boundary
@@ -68,18 +68,18 @@
 % integration. Do not include full test case descriptions, but rather, describe
 % the tests that were executed in general terms.
 
-\chapter{Outstanding Issues}
+\section{Outstanding Issues} % Zach
 % 10%
 % List any outstanding faults, deficiences, or missing features, and make
 % recommendations on how they should be addressed in the final version.
 
-\chapter{Build and Installation Instructions}
+\section{Build and Installation Instructions}
 % 10%
 % Provide a brief outline of the steps required for compiling, installing, and
 % running the implementation given a copy of the submitted source code. List
 % any development tools and libraries that are required.
 
-\chapter{Extensibility}
+\section{Extensibility}
 % 10%
 % Recommend any functional and non-functional improvments to make in the final
 % version of the implementation to be released or a subsequent version. These
