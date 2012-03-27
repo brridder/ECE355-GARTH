@@ -243,6 +243,20 @@ example, if the field is required to be an integer, but the user
 enters a string, the type conversion will fail and the particular
 Event that field corresponds to will not be sent.
 
+The software requirements specification and software design document specified
+specific error-cases and how the system would handle such failures.
+Unfortunately some of these error cases weren't handled in the implementation
+of the software that was demonstrated, simply because many of the systems
+were emulated in ideal circumstances. For example, since the sensors were
+represented by simple buttons on the demo GUI, there wasn't any option for
+forcing the sensors to fail to see how they would behave in an error condition
+such as communication failure or low-battery. However, if these systems were to
+have been implemented, the user would have been notified of these fault 
+conditions via a minor alarm alert on the mobile application. The user would
+see this alert and investigate it by checking the sensor themselves or
+contacting a GARTH representative. Adding this error case would have been trivial,
+albeit it was not implemented.
+
 \section{Test Results}
 % 20%
 % Summarize what testing techniques were performed on the implementation.
