@@ -204,13 +204,34 @@ to verify that the logic in the various state machines was
 correct. The console was also used during the project demo to
 demonstrate the high level functionality of the system.
 
-\section{Error Handling} 
+\section{Error Handling}
 % 10%
 % Describe potential and realistic faults that could occur in the
 % implementation and how the system prevents, detects, mitigates, and/or
 % recovers from failure. For instance, describe whether the implementation
 % performs error checking on user input, recovers from interrupted
 % commmunication, or handles component failure.
+
+The software requirements specification and software design document specified
+specific error-cases and how the system would handle such failures.
+Unfortunately many of these error cases weren't handled in the implementation
+of the software that was demonstrated, simply because many of the systems
+were emulated in ideal circumstances. For example, since the sensors were
+represented by simple buttons on the demo GUI, there wasn't any option for
+forcing the sensors to fail to see how they would behave in an error condition
+such as communication failure or low-battery. However, if these systems were to
+have been implemented, the user would have been notified of these fault 
+conditions via a minor alarm alert on the mobile application. The user would
+see this alert and investigate it by checking the sensor themselves or
+contacting a GARTH representative. Adding this error case would have been trivial,
+albeit it was not implemented.
+
+Some failure cases were accounted for in the implementation of the software
+although, particularly those related to communication issues between the server
+and the applications. If the application was pointed to an incorrect address or
+the server was down for some reason, a failed connection attempt would occur
+and alert the user to check the settings. The application would not attempt to
+re-connect to the server until this was fixed.
 
 \section{Test Results}
 % 20%
