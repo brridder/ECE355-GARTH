@@ -90,7 +90,7 @@ functionality.
 \section{Changes to the Design} % Casey or Ben???
 % 10%
 % Summarize any changes that were required to the design specified in the
-% Design Document, and jusity the design deviations.
+% Design Document, and justify the design deviations.
 
 % left out hardware interface: sockets instead
 % Moved subscribeToEvent to eventManager3
@@ -273,12 +273,12 @@ state.
 
 A main goal during the testing of GARTH was to achieve 100\% test
 coverage. This means that every line of code in the GARTH
-implemenation is executed at some point during the run of the test
-suite. This statistic is particulary important for an interpreted
+implementation is executed at some point during the run of the test
+suite. This statistic is particularly important for an interpreted
 language like Python because some code is not parsed until it is run,
 therefore some errors may not appear until runtime. If every line of
 code is run during the test suite, the developer can be assured that
-none of these errors exist in the codebase. The test coverage report
+none of these errors exist in the code base. The test coverage report
 for the GARTH implementation can be found in Figure~\ref{fig:test_coverage}.
 
 \floatstyle{plain}
@@ -299,7 +299,8 @@ In order to test boundary conditions of the system, the test sensor console was
 used. Using the console as well as the software requirements
 specification document, functional and non-functional requirements
 were tested. Use cases were verified using the test sensor console as
-well. A screenshot of the test sensor console can be found in Figure~\ref{fig:sensor_console}.
+well. A screen shot of the test sensor console can be found in
+Figure~\ref{fig:sensor_console}.
 
 \floatstyle{plain}
 \restylefloat{figure}
@@ -333,15 +334,15 @@ authentication. Although the access array and access control matrix was fully
 explained in the software design document, user ID and password authentication
 was not put in place for the implementation of the subset. However, for the
 purposes of the software demo unique user experiences were emulated with the
-fact that mutliple mobile applications were able to run simultaneously. This
+fact that multiple mobile applications were able to run simultaneously. This
 showed how the software would behave given that more than one user was
 manipulating the system at once. Creating a scheme for logging into these 
 applications will be implemented for the final version of the design by 
-creating a log-in screen for the mobile app that queries the access array
-and control matrix for ID and password verification as well as setting permission
-levels to each user.
+creating a log-in screen for the mobile application that queries the access
+array and control matrix for ID and password verification as well as setting
+permission levels to each user.
 
-Finally, the implemented software that was presented did not have persistant
+Finally, the implemented software that was presented did not have persistent
 storage for the server. Instead, the logs were cleared every time the server
 was reset. This was not an issue for the case of the demo as the server remained
 active the entire time, however it did not adequately show how the final version
@@ -399,13 +400,13 @@ Android version works without any special permissions.
 
 Since the implementation was a subset of the design as presented in the design
 document, there is much left to be implemented that would add significant scale
-to the system. For example, the mobile apps could be extended to add more
+to the system. For example, the mobile applications could be extended to add more
 robust functionality as well as provide the user with more control over the
-GARTH home system and its configuration. In its current iteration, the mobile app
-is very light on settings and functionality. By adding proper user authentication
-using the access control matrix, users with adequate permissions could easibly
-configure the system through the mobile app which would communicate with the
-server.
+GARTH home system and its configuration. In its current iteration, the mobile
+application is very light on settings and functionality. By adding proper user
+authentication using the access control matrix, users with adequate permissions
+could easily configure the system through the mobile application which would
+communicate with the server.
 
 As mentioned above, having more error handling could improve the reliability
 of the system. If a system were implemented for detecting sensor failure,
