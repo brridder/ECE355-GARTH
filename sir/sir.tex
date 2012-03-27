@@ -212,26 +212,36 @@ demonstrate the high level functionality of the system.
 % performs error checking on user input, recovers from interrupted
 % commmunication, or handles component failure.
 
-The software requirements specification and software design document specified
-specific error-cases and how the system would handle such failures.
-Unfortunately many of these error cases weren't handled in the implementation
-of the software that was demonstrated, simply because many of the systems
-were emulated in ideal circumstances. For example, since the sensors were
-represented by simple buttons on the demo GUI, there wasn't any option for
-forcing the sensors to fail to see how they would behave in an error condition
-such as communication failure or low-battery. However, if these systems were to
-have been implemented, the user would have been notified of these fault 
-conditions via a minor alarm alert on the mobile application. The user would
-see this alert and investigate it by checking the sensor themselves or
-contacting a GARTH representative. Adding this error case would have been trivial,
-albeit it was not implemented.
+The GARTH implementation contains both error handling as well as
+logging functionality. However, several potential faults
+exist. Firstly, faults can occur within the communication stack if
+there is a problem with any of the socket connections. Secondly, there
+are potential faults if the remote server is inaccessible. However,
+GARTH does include user input validation and prevents faults related
+to erroneous input.
 
-Some failure cases were accounted for in the implementation of the software
-although, particularly those related to communication issues between the server
-and the applications. If the application was pointed to an incorrect address or
-the server was down for some reason, a failed connection attempt would occur
-and alert the user to check the settings. The application would not attempt to
-re-connect to the server until this was fixed.
+The communications stack contains exception handling logic to mitigate
+the risk of failed or interrupted socket connections. If an error
+occurs while establishing a client socket, an exception is thrown by
+the underlying Python socket library this exception is handled by
+GARTH by printing an error message. This behaviour is the same if an
+existing socket connection encounters some other error; an exception
+is raised by the sockets library and handled by GARTH.
+
+If a connection cannot be opened to the external webserver, GARTH will
+log an error message, but it will not attempt to reconnect to the
+server.
+
+The test sensor console used in GARTH testing contains several fields
+where the user can enter arbitrary input. This input determines what
+appears in the various fields of the Event objects that are created
+and sent by the sensor console. However, the fields of the Event
+objects have specific types. To avoid potential faults, the sensor
+console attempts to convert the user input to the required type, and
+if that conversion fails, will not send the particular Event. For
+example, if the field is required to be an integer, but the user
+enters a string, the type conversion will fail and the particular
+Event that field corresponds to will not be sent.
 
 \section{Test Results}
 % 20%
@@ -246,12 +256,13 @@ re-connect to the server until this was fixed.
 % List any outstanding faults, deficiences, or missing features, and make
 % recommendations on how they should be addressed in the final version.
 
-The implemented design was light on error-handling, as much of the main focus
-was in regards to getting robust functionality in place. As a result, the intended
-error cases for sensor communication failure and sensor low-battery were not
-in place when the subset of the design was implemented. Although there was no
-way to emulate sensor failure in the demo, this error case is trivial to put in
-place and will be ready for the final version.
+The implemented design was light on error-handling, as much of the
+main focus was in regards to getting robust functionality in place. As
+a result, the intended error cases for sensor communication failure
+and sensor low-battery were not in place when the subset of the design
+was implemented. Although there was no way to emulate sensor failure
+in the demo, this error case is trivial to put in place and will be
+ready for the final version.
 
 Another missing feature for the implemented software was distinct user
 authentication. Although the access array and access control matrix was fully
